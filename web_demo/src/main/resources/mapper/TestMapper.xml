@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.web_demo.mybatis.TestMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.web_demo.mybatis.DbcMd5RecordEntity">
+        <id column="DBCID" jdbcType="DECIMAL" property="dbcId"/>
+        <result column="MD5CODE" jdbcType="VARCHAR" property="md5"/>
+        <result column="FILENAME" jdbcType="VARCHAR" property="fileName"/>
+        <result column="FULLDBCNAME" jdbcType="VARCHAR" property="fullName"/>
+        <result column="CREATETIME" jdbcType="DATE" property="createTime"/>
+        <result column="VARIABLESCOUNT" jdbcType="DECIMAL" property="variablesCount"/>
+    </resultMap>
+
+    <sql id="BaseColumnList">
+    DBCID, MD5CODE, FILENAME, FULLDBCNAME, CREATETIME, VARIABLESCOUNT
+    </sql>
+
+    <select id="selectFinishedDbcRecord" resultType="java.lang.String">
+        SELECT MD5CODE
+        FROM incom_dbcmd5record IDC,incom_dbcvariables IDV
+        WHERE IDV.dbcid = IDC.dbcid
+        GROUP BY MD5CODE,VARIABLESCOUNT
+        HAVING SUM(IDV.serial)= ((1+variablescount)*variablescount/2)
+    </select>
+
+    <select id="selectByMd5" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM incom_dbcmd5record
+        WHERE MD5CODE = #{md5,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+    <script>
+/*        $(document).ready(function () {
+            $.ajax({
+                //请求方式
+                type: "GET",
+                //文件位置
+                url: "/app/application.properties",
+                //返回数据格式为json,也可以是其他格式如
+                dataType: "text",
+                //请求成功后要执行的函数，拼接html
+                success: function (data) {
+                    var s = '';
+                    for (i = 0; i < data.length; i++) {
+                        s += data[i];
+                    }
+                    alert(s);
+                }
+            });
+        });*/
+    </script>
+</head>
+<body>
+首页
+<script>
+    if (typeof(WebSocket) == "undefined") {
+        console.log("您的浏览器不支持WebSocket");
+    } else {
+        console.log("您的浏览器支持WebSocket");
+        //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+        //等同于socket = new WebSocket("ws://localhost:8083/checkcentersys/websocket/20");
+        socket = new WebSocket("ws://localhost:8080/websocket/1");
+        //打开事件
+        socket.onopen = function () {
+            console.log("Socket 已打开");
+            //socket.send("这是来自客户端的消息" + location.href + new Date());
+        };
+        //关闭事件
+        socket.onclose = function () {
+            console.log("Socket已关闭");
+        };
+        //发生了错误事件
+        socket.onerror = function () {
+            alert("Socket发生了错误");
+        }
+        //获得消息事件
+        socket.onmessage = function (msg) {
+            console.log(msg.data);
+        };
+    }
+</script>
+</body>
+</html>

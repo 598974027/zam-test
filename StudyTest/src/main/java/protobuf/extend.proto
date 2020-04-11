@@ -1,0 +1,12 @@
+syntax = "proto2";
+//option java_package = "";
+option java_outer_classname = "ExtendBuf";
+import "base.proto";
+//всюЮ
+message Extend {
+    optional string name = 1;
+    optional int32 sex = 2;
+    extend Base {
+        optional Extend extend = 200;
+    }
+}

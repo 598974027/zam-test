@@ -1,0 +1,10 @@
+syntax = "proto2";
+//option java_package = "";
+option java_outer_classname = "BaseBuf";
+//¸¸Àà
+message Base {
+    optional int32 id = 1;
+    optional string token = 2;
+    //ÍØÕ¹¼Ì³ÐË÷Òý
+    extensions 200 to 400;
+}

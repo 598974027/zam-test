@@ -1,0 +1,2 @@
+MQ启用哈希路由
+rabbitmq-plugins enable rabbitmq_consistent_hash_exchange
