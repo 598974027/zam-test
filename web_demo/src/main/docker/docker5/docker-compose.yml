@@ -2,12 +2,30 @@ version: '3'
 services:
   redis:
     image: redis:latest
+    container_name: redis
+    restart: always
+#    command:
     ports:
       - 6379:6379
     volumes:
-      - "/redis/redis.conf:/etc/redis/redis.conf"
-      - "/redis/data:/data"
+      - /redis/nodes-6391.conf:/etc/redis/nodes-6391.conf
+      - /redis/data:/data
+#    environment:
+#    networks:
+#    links:
+#    depends_on:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - /mysql/data:/var/lib/mysql
+      - /mysql/conf:/etc/mysql/conf.d
     environment:
-      - intest.group=n60
-      - intest.actor=clb
+      - MYSQL_USER=zam
+      - MYSQL_PASSWORD=zam
+      - MYSQL_ROOT_PASSWORD=root
+
 
