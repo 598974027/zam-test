@@ -1,0 +1,7 @@
+idea连接docker
+修改配置文件
+vim /usr/lib/systemd/system/docker.service
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+重新加载配置文件和启动
+systemctl daemon-reload
+systemctl restart docker.service

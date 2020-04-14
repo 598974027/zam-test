@@ -1,0 +1,13 @@
+version: '3'
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - "/redis/redis.conf:/etc/redis/redis.conf"
+      - "/redis/data:/data"
+    environment:
+      - intest.group=n60
+      - intest.actor=clb
+
