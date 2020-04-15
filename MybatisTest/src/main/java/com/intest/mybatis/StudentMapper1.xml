@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace属性是名称空间，必须唯一 -->
+<mapper namespace="namespace001">
+
+	<!-- 增加学生 -->
+	<insert id="add" parameterType="student">
+		insert into students(id,name,sal)
+		values(#{id},#{name},#{sal})
+	</insert>
+
+	<!-- 根据ID查询学生 如果参数不是一个实体的话，只是一个普通变量，例如:int,double,String 这里的#{中间的变量名可以随便写}，不过提倡就用方法的形参 -->
+	<select id="findById" parameterType="int" resultType="student">
+		select
+		id,name,sal from students where id = #{xxxxxx}
+	</select>
+
+	<!-- 查询所有学生 理论上resultType要写List<Student> 但这里只需书写List中的类型即可，即只需书写Student的全路径名 -->
+	<select id="findAll" resultType="student">
+		select id,name,sal from students
+	</select>
+
+	<!-- 更新学生 -->
+	<update id="update" parameterType="student">
+		update students set
+		name=#{name},sal=#{sal} where id=#{id}
+	</update>
+
+	<!-- 删除学生 -->
+	<delete id="delete" parameterType="student">
+		delete from students where id
+		= #{id}
+	</delete>
+
+	<insert id="delete2" parameterType="student">
+		delete from students where
+		id = #{id}
+	</insert>
+
+	<!-- 注意： 这个insert/update/delete标签只是一个模板，在做操作时， 其实是以SQL语句为核心的 即在做增/删/时，insert/update/delete标签可通用， 
+		但做查询时只能用select标签 我们提倡什么操作就用什么标签 -->
+</mapper>
+

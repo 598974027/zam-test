@@ -1,4 +1,6 @@
-package com.example.web_demo.mybatis;
+package com.intest.mybatis2.dao;
+
+import com.intest.mybatis2.entity.DbcMd5RecordEntity;
 
 import java.util.Set;
 

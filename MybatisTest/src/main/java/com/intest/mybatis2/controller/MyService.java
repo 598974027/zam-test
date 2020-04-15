@@ -1,6 +1,6 @@
-package com.example.web_demo.controller;
+package com.intest.mybatis2.controller;
 
-import com.example.web_demo.mybatis.TestMapper;
+import com.intest.mybatis2.dao.TestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ public class MyService {
     @Autowired
     private TestMapper testMapper;
 
-    public int test1() {
+    public int test() {
         return testMapper.selectFinishedDbcRecord().size();
     }
 

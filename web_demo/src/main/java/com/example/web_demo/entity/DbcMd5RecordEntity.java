@@ -1,4 +1,4 @@
-package com.example.web_demo.mybatis;
+package com.example.web_demo.entity;
 
 import java.time.LocalDateTime;
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace属性是名称空间，必须唯一 -->
+<mapper namespace="namespace002">
+
+	<resultMap type="student" id="studentMap">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="sal" column="sal" />
+	</resultMap>
+
+	<select id="findAll" parameterType="map" resultMap="studentMap">
+		select * from students
+		<where>
+			<if test="pid!=null">
+				and id = #{pid}
+			</if>
+			<if test="pname!=null">
+				and name = #{pname}
+			</if>
+			<if test="psal!=null">
+				and sal = #{psal}
+			</if>
+		</where>
+	</select>
+
+</mapper>
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace属性是名称空间，必须唯一 -->
+<mapper namespace="namespace000">	
+
+	<!-- 
+		insert标签：要书写insert这么一个sql语句
+		id属性：为insert这么一个sql语句取一个任意唯一的名字
+		parameterType:要执行的dao中的方法的参数，如果是类的话，必须使用全路径类
+	-->
+	<insert id="add1">
+		insert into students(id,name,sal) values(1,'哈哈',7000)
+	</insert>
+	
+	<insert id="add2" parameterType="student">
+		insert into students(id,name,sal) values(#{id},#{name},#{sal})
+	</insert>
+
+</mapper>
+
