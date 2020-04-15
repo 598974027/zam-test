@@ -3,12 +3,12 @@
 <mapper namespace="com.example.web_demo.dao.TestMapper">
 
     <resultMap id="BaseResultMap" type="com.example.web_demo.entity.DbcMd5RecordEntity">
-        <id column="DBCID" jdbcType="DECIMAL" property="dbcId"/>
-        <result column="MD5CODE" jdbcType="VARCHAR" property="md5"/>
+        <id column="DBCID" jdbcType="INTEGER" javaType="int" property="dbcId"/>
+        <result column="MD5CODE" jdbcType="VARCHAR" javaType="string" property="md5"/>
         <result column="FILENAME" jdbcType="VARCHAR" property="fileName"/>
         <result column="FULLDBCNAME" jdbcType="VARCHAR" property="fullName"/>
-        <result column="CREATETIME" jdbcType="DATE" property="createTime"/>
-        <result column="VARIABLESCOUNT" jdbcType="DECIMAL" property="variablesCount"/>
+        <result column="CREATETIME" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime" property="createTime"/>
+        <result column="VARIABLESCOUNT" jdbcType="INTEGER" property="variablesCount"/>
     </resultMap>
 
     <sql id="BaseColumnList">

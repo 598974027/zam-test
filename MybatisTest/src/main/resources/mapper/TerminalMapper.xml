@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.mybatis2.dao.TerminalMapper">
+
+    <select id="getTerminalInfo" resultType="java.util.HashMap" databaseId="oracle">
+        select it.barcode, it.terminalcode,
+        case when xc.vinno is null then 0 else 1 end as IsBinding,
+        case when xc.vinno is null then to_char(it.terminalcode) else to_char(xc.vinno) end as vinno,
+        it.firmware as fireware, idr.md5code
+        from incom_terminal it
+        left join xcar xc on it.terminalid = xc.terminalid and it.terminalcode = xc.terminalcode and cartoterminalstatus = 1
+        left join (select * from (select row_number() over (partition by terminalcode order by begintime desc) lev, r.* from incom_dbcterminluserecord r) where lev = 1) idr on it.terminalcode = idr.terminalcode
+        where it.flag = 1
+        order by it.terminalcode asc
+    </select>
+    <select id="getTerminalInfo" resultType="java.util.HashMap" databaseId="mysql">
+        select it.barcode as "BARCODE", it.terminalcode as "TERMINALCODE",
+        case when xc.vinno is null then 0 else 1 end as "ISBINDING",
+        case when xc.vinno is null then cast(it.terminalcode as char) else xc.vinno end as "VINNO",
+        it.firmware as "FIRMWARE", idr.md5code as "MD5CODE"
+        from incom_terminal it
+        left join xcar xc on it.terminalid = xc.terminalid and it.terminalcode = xc.terminalcode and cartoterminalstatus = 1
+        left join (select * from incom_dbcterminluserecord where begintime in (select max(begintime) from incom_dbcterminluserecord group by terminalcode)) idr on it.terminalcode = idr.terminalcode
+        where it.flag = 1
+        order by it.terminalcode asc
+    </select>
+
+    <select id="getTerminalInfoById" parameterType="String" resultType="java.util.HashMap" databaseId="oracle">
+        select it.barcode, it.terminalcode,
+        case when xc.vinno is null then 0 else 1 end as IsBinding,
+        case when xc.vinno is null then to_char(it.terminalcode) else to_char(xc.vinno) end as vinno,
+        it.firmware as fireware, idr.md5code
+        from incom_terminal it
+        left join xcar xc on it.terminalid = xc.terminalid and it.terminalcode = xc.terminalcode and cartoterminalstatus = 1
+        left join (select * from (select row_number() over (partition by terminalcode order by begintime desc) lev, r.* from incom_dbcterminluserecord r) where lev = 1) idr on it.terminalcode = idr.terminalcode
+        where it.flag = 1 and it.terminalcode = #{terminalcode}
+        order by it.terminalcode asc
+    </select>
+    <select id="getTerminalInfoById" parameterType="String" resultType="java.util.HashMap" databaseId="mysql">
+        select it.barcode as "BARCODE", it.terminalcode as "TERMINALCODE",
+        case when xc.vinno is null then 0 else 1 end as "ISBINDING",
+        case when xc.vinno is null then cast(it.terminalcode as char) else xc.vinno end as "VINNO",
+        it.firmware as "FIRMWARE", idr.md5code as "MD5CODE"
+        from incom_terminal it
+        left join xcar xc on it.terminalid = xc.terminalid and it.terminalcode = xc.terminalcode and cartoterminalstatus = 1
+        left join (select * from incom_dbcterminluserecord where begintime in (select max(begintime) from incom_dbcterminluserecord group by terminalcode)) idr on it.terminalcode = idr.terminalcode
+        where it.flag = 1 and it.terminalcode = #{terminalcode}
+        order by it.terminalcode asc
+    </select>
+
+    <update id="updateTerminalOnline" parameterType="com.intest.mybatis2.entity.TerminalEntity" databaseId="oracle">
+        update incom_terminal
+        set isonline = #{isOnline},
+        lastlogintime = currentlogintime,
+        currentlogintime = case #{isOnline} when 1 then sysdate else currentlogintime end,
+        lastofflinetime = case #{isOnline} when 1 then lastofflinetime else sysdate end,
+        globalflag = case #{isOnline} when 1 then N''||#{globalFlag} else globalflag end
+        where flag = 1 and terminalcode = #{terminalcode}
+    </update>
+    <update id="updateTerminalOnline" parameterType="com.intest.mybatis2.entity.TerminalEntity" databaseId="mysql">
+        update incom_terminal
+        set isonline = #{isOnline},
+        lastlogintime = currentlogintime,
+        currentlogintime = case #{isOnline} when 1 then current_timestamp else currentlogintime end,
+        lastofflinetime = case #{isOnline} when 1 then lastofflinetime else current_timestamp end,
+        globalflag = case #{isOnline} when 1 then #{globalFlag} else globalflag end
+        where flag = 1 and terminalcode = #{terminalcode}
+    </update>
+
+    <insert id="insertTerminalOnline" parameterType="com.intest.mybatis2.entity.TerminalEntity" databaseId="oracle">
+        insert into incom_terminalloginlog(terminalcode, isonline, createdon, loginserver)
+        values(#{terminalcode}, #{isOnline}, sysdate, #{globalFlag})
+    </insert>
+    <insert id="insertTerminalOnline" parameterType="com.intest.mybatis2.entity.TerminalEntity" databaseId="mysql">
+        insert into incom_terminalloginlog(logid, terminalcode, isonline, createdon, loginserver)
+        values(uuid(), #{terminalcode}, #{isOnline}, current_timestamp, #{globalFlag})
+    </insert>
+
+    <select id="getFinishedDbcUsedRecord" resultType="java.util.HashMap">
+        select md5code as "MD5CODE" from incom_dbcmd5record idc, incom_dbcvariables idv
+        where idv.dbcid = idc.dbcid group by md5code, variablescount having sum(idv.serial) = ((1 + variablescount) * variablescount / 2)
+    </select>
+
+    <select id="getFinishedDbcById" parameterType="String" resultType="java.util.HashMap">
+        select md5code as "MD5CODE" from incom_dbcmd5record idc, incom_dbcvariables idv
+        where idv.dbcid = idc.dbcid and idc.md5code = #{md5code}
+        group by md5code, variablescount having sum(idv.serial) = ((1 + variablescount) * variablescount / 2)
+    </select>
+
+    <update id="insertDbcUsedRecord" statementType="CALLABLE" parameterType="com.intest.mybatis2.entity.DbcUsedRecord"
+            databaseId="oracle">
+        call incomex.addterminalusedrecord(#{terminalCode,mode=IN}, #{md5Code,mode=IN}, #{travelTime,mode=IN,jdbcType=DATE})
+    </update>
+    <update id="insertDbcUsedRecord" statementType="CALLABLE" parameterType="com.intest.mybatis2.entity.DbcUsedRecord"
+            databaseId="mysql">
+        call addterminalusedrecord(#{terminalCode,mode=IN}, #{md5Code,mode=IN}, #{travelTime,mode=IN,jdbcType=DATE})
+    </update>
+
+</mapper>
