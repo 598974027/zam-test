@@ -152,26 +152,20 @@ public class MySSLContext {
         try {
             //保存客户端的私钥
             KeyStore ks = KeyStore.getInstance("JKS");
-            InputStream in = new FileInputStream(new File(System.getProperty("user.dir") + "/server-keystore2.jks"));
-            ks.load(in, "1qaz@WSX".toCharArray());
+            InputStream in = new FileInputStream(new File(System.getProperty("user.dir") + "/n60-keystore.jks"));
+            ks.load(in, "server".toCharArray());
             KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             kmf.init(ks, "1qaz@WSX".toCharArray());
             in.close();
             Enumeration<String> e = ks.aliases();
-            while (e.hasMoreElements()) {
-
-            }
             //保存服务端的授权证书
             KeyStore ks2 = KeyStore.getInstance("JKS");
-            InputStream in2 = new FileInputStream(new File(System.getProperty("user.dir") + "/server-truststore2.jks"));
+            InputStream in2 = new FileInputStream(new File(System.getProperty("user.dir") + "/n60-truststore.jks"));
             ks2.load(in2, "server".toCharArray());
             TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             tmf.init(ks2);
             in2.close();
             Enumeration<String> e2 = ks2.aliases();
-            while (e2.hasMoreElements()) {
-
-            }
             clientContext = SSLContext.getInstance("TLSv1.2");
             clientContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
         } catch (Exception e) {

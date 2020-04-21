@@ -2,10 +2,7 @@ package com.example.web_demo.redis;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * 功能描述:
@@ -18,8 +15,8 @@ import javax.annotation.Resource;
 @Order(value = 1)
 public class RedisTest implements CommandLineRunner {
 
-    @Resource
-    private StringRedisTemplate xxxx;
+//    @Resource
+//    private StringRedisTemplate xxxx;
 
     @Override
     public void run(String... args) throws Exception {

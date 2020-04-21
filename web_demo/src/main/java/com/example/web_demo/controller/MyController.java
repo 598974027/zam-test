@@ -1,11 +1,12 @@
 package com.example.web_demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.web_demo.cache.CacheTest;
 import com.example.web_demo.jwt.TokenService;
 import com.example.web_demo.jwt.User;
 import com.example.web_demo.jwt.UserLoginToken;
-import com.example.web_demo.server.MyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,11 +20,14 @@ public class MyController {
     private TokenService tokenService;
 
     @Autowired
-    private MyService myService;
+    private CacheManager cacheManager;
+
+    @Autowired
+    private CacheTest cacheTest;
 
     @RequestMapping(value = "/test1", method = RequestMethod.GET)
     public String test1() {
-        System.out.println(myService.test1());
+        cacheTest.getUser(2);
         return "test1";
     }
 

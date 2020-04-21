@@ -18,7 +18,7 @@ public interface TestMapper {
      *
      * @return
      */
-    Set<String> selectFinishedDbcRecord();
+    public Set<String> selectFinishedDbcRecord();
 
     /**
      * 根据md5值查询DbcMd5Record
@@ -26,6 +26,6 @@ public interface TestMapper {
      * @param md5
      * @return
      */
-    DbcMd5RecordEntity selectByMd5(String md5);
+    public DbcMd5RecordEntity selectByMd5(String md5);
 
 }

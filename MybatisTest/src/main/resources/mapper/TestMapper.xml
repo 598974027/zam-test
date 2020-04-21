@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.intest.mybatis2.dao.TestMapper">
+<mapper namespace="com.intest.mybatis2.dao.db1.TestMapper">
+    <cache eviction="FIFO" flushInterval="60000"/>
 
     <resultMap id="BaseResultMap" type="com.intest.mybatis2.entity.DbcMd5RecordEntity">
         <id column="DBCID" jdbcType="INTEGER" javaType="int" property="dbcId"/>
@@ -45,5 +46,9 @@
             resultType="com.intest.mybatis2.entity.DbcMd5RecordEntity">
         SELECT * FROM incom_dbcmd5record WHERE MD5CODE LIKE "%${value}%"
     </select>
+
+    <insert id="insertUser" parameterType="java.util.HashMap">
+        insert into zam(name, info, createtime) values(#{name}, #{info}, now())
+    </insert>
 
 </mapper>

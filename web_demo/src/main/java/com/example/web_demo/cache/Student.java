@@ -1,5 +1,9 @@
 package com.example.web_demo.cache;
 
+import lombok.Data;
+
+import java.io.Serializable;
+
 /**
  * 功能描述:
  *
@@ -7,9 +11,10 @@ package com.example.web_demo.cache;
  * @time 2019/5/30 22:16
  * @see
  **/
-public class Student {
-    public int id;
-    public String name;
+@Data
+public class Student implements Serializable {
+    private int id;
+    private String name;
 
     @Override
     public String toString() {

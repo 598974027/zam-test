@@ -1,4 +1,4 @@
-package com.example.web_demo.server;
+package com.example.web_demo.service;
 
 import com.example.web_demo.dao.TestMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,0 +1,51 @@
+事务回滚
+@Transactional
+public void test() {
+   jdbcTemplate.update("insert into zam(name,info,createtime) values(?,?,now())", "zam", "hero");
+   int i = 1 / 0;
+}
+@Transactional
+public void test() {
+   testMapper.insertUser("zam", "hero");
+   int i = 1 / 0;
+}
+@Transactional
+public void test() {
+   testMapper.insertUser("zam", "hero");
+   try {
+      int i = 1 / 0;
+   } catch (NullPointerException e) {
+
+   }
+}
+
+事务不回滚
+@Transactional
+public void test() {
+   testMapper.insertUser("zam", "hero");
+   try {
+      int i = 1 / 0;
+   } catch (ArithmeticException e) {
+
+   }
+}
+@Transactional(rollbackFor = ArithmeticException.class)
+public void test() {
+   testMapper.insertUser("zam", "hero");
+   try {
+      int i = 1 / 0;
+   } catch (ArithmeticException e) {
+
+   }
+}
+@Transactional(noRollbackFor = ArithmeticException.class)
+public void test() {
+   testMapper.insertUser("zam", "hero");
+   int i = 1 / 0;
+}
+
+不能插入，因为事务只读
+@Transactional(readOnly = true)
+public void test() {
+   testMapper.insertUser("zam", "hero");
+}

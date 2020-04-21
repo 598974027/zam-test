@@ -1,6 +1,7 @@
 package com.intest.mybatis2.controller;
 
 import com.intest.mybatis2.entity.DbcMd5RecordEntity;
+import com.intest.mybatis2.service.MyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +15,16 @@ public class MyController {
     @Autowired
     private MyService myService;
 
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test() {
+        myService.test();
+        return "ok";
+    }
+
     @RequestMapping(value = "/test1", method = RequestMethod.GET)
     public int test1(HttpServletRequest request) {
         System.out.println("test1");
-        return myService.test1();
+        return myService.test4().size();
     }
 
     /**
