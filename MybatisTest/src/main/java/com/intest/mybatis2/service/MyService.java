@@ -42,12 +42,14 @@ public class MyService {
     private NamedParameterJdbcTemplate namedTemplate;
 
     /**
-     * Spring的AOP即声明式事务管理默认是针对unchecked exception回滚。也就是默认对RuntimeException()异常或是其子类进行事务回滚；
-     * checked异常,即Exception可try{}捕获的不会回滚，因此对于我们自定义异常，通过rollbackFor进行设定.
+     * Spring的AOP即声明式事务管理默认是针对unchecked exception回滚。
+     * 开启了事务，方法执行完了才提交。
+     * 统一方法内，先插入，后查找，数据包含了未提交的部分。
      */
     @Transactional
     public void test() {
         testMapper.insertUser("zam", "hero");
+        List<Map<String, Object>> mapList = jdbcTemplate.queryForList("select * from zam");
         int i = 1 / 0;
     }
 

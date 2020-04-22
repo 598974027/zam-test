@@ -1,3 +1,58 @@
+脏读（读取未提交数据）
+A事务读取B事务尚未提交的数据，此时如果B事务发生错误并执行回滚操作，那么A事务读取到的数据就是脏数据。就好像原本的数据比较干净、纯粹，此时由于B事务更改了它，这个数据变得不再纯粹。这个时候A事务立即读取了这个脏数据，但事务B良心发现，又用回滚把数据恢复成原来干净、纯粹的样子，而事务A却什么都不知道，最终结果就是事务A读取了此次的脏数据，称为脏读。
+不可重复读（前后多次读取，数据内容不一致）
+事务A在执行读取操作，由整个事务A比较大，前后读取同一条数据需要经历很长的时间 。而在事务A第一次读取数据，比如此时读取了小明的年龄为20岁，事务B执行更改操作，将小明的年龄更改为30岁，此时事务A第二次读取到小明的年龄时，发现其年龄是30岁，和之前的数据不一样了，也就是数据不重复了，系统不可以读取到重复的数据，成为不可重复读。
+幻读（前后多次读取，数据总量不一致）
+事务A在执行读取操作，需要两次统计数据的总量，前一次查询数据总量后，此时事务B执行了新增数据的操作并提交后，这个时候事务A读取的数据总量和之前统计的不一样，就像产生了幻觉一样，平白无故的多了几条数据，成为幻读。
+隔离级别
+@Transactional(isolation = Isolation.DEFAULT)
+隔离级别是指若干个并发的事务之间的隔离程度，与我们开发时候主要相关的场景包括：脏读取、重复读、幻读。
+DEFAULT：这是默认值，表示使用底层数据库的默认隔离级别。对大部分数据库而言，通常这值就是READ_COMMITTED。
+READ_UNCOMMITTED：该隔离级别表示一个事务可以读取另一个事务修改但还没有提交的数据。该级别不能防止脏读，不可重复读和幻读，因此很少使用该隔离级别。比如PostgreSQL实际上并没有此级别。
+READ_COMMITTED：该隔离级别表示一个事务只能读取另一个事务已经提交的数据。该级别可以防止脏读，这也是大多数情况下的推荐值。
+REPEATABLE_READ：该隔离级别表示一个事务在整个过程中可以多次重复执行某个查询，并且每次返回的记录都相同。该级别可以防止脏读和不可重复读。
+SERIALIZABLE：所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会用到该级别。
+
+传播行为
+@Transactional(propagation = Propagation.REQUIRED)
+所谓事务的传播行为是指，如果在开始当前事务之前，一个事务上下文已经存在，此时有若干选项可以指定一个事务性方法的执行行为。
+REQUIRED：如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。这是默认值。
+REQUIRES_NEW：创建一个新的事务，如果当前存在事务，则把当前事务挂起。
+SUPPORTS：如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。
+NOT_SUPPORTED：以非事务方式运行，如果当前存在事务，则把当前事务挂起。
+NEVER：以非事务方式运行，如果当前存在事务，则抛出异常。
+MANDATORY：如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。
+NESTED：如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于REQUIRED。
+
+事务超时
+所谓事务超时，就是指一个事务所允许执行的最长时间，如果超过该时间限制但事务还没有完成，则自动回滚事务。在 TransactionDefinition 中以int的值来表示超时时间，其单位是秒。
+默认设置为底层事务系统的超时值，如果底层数据库事务系统没有设置超时值，那么就是none，没有超时限制。
+
+事务只读属性
+只读事务用于客户代码只读但不修改数据的情形，只读事务用于特定情景下的优化，比如使用Hibernate的时候。
+默认为读写事务。
+
+事务回滚规则
+指示spring事务管理器回滚一个事务的推荐方法是在当前事务的上下文内抛出异常。spring事务管理器会捕捉任何未处理的异常，然后依据规则决定是否回滚抛出异常的事务。
+默认配置下，spring只有在抛出的异常为运行时unchecked异常时才回滚该事务，也就是抛出的异常为RuntimeException的子类(Errors也会导致事务回滚)，而抛出checked异常则不会导致事务回滚。
+可以明确的配置在抛出那些异常时回滚事务，包括checked异常。也可以明确定义那些异常抛出时不回滚事务。
+还可以编程性的通过setRollbackOnly()方法来指示一个事务必须回滚，在调用完setRollbackOnly()后你所能执行的唯一操作就是回滚。
+
+用法
+@Transactional 可以作用于接口、接口方法、类以及类方法上。当作用于类上时，该类的所有 public 方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。
+虽然 @Transactional 注解可以作用于接口、接口方法、类以及类方法上，但是 Spring 建议不要在接口或者接口方法上使用该注解，因为这只有在使用基于接口的代理时它才会生效。
+另外， @Transactional 注解应该只被应用到 public 方法上，这是由 Spring AOP 的本质决定的。如果你在 protected、private 或者默认可见性的方法上使用 @Transactional 注解，这将被忽略，也不会抛出任何异常。
+属性	                     类型	                          描述
+value	                 String	                          可选的限定描述符，指定使用的事务管理器
+propagation	             enum: Propagation	              可选的事务传播行为设置
+isolation	             enum: Isolation	              可选的事务隔离级别设置
+readOnly	             boolean	                      读写或只读事务，默认读写
+timeout	                 int (in seconds granularity)	  事务超时时间设置
+rollbackFor	             Class对象数组，必须继承自Throwable	  导致事务回滚的异常类数组
+rollbackForClassName	 类名数组，必须继承自Throwable	      导致事务回滚的异常类名字数组
+noRollbackFor	         Class对象数组，必须继承自Throwable	  不会导致事务回滚的异常类数组
+noRollbackForClassName	 类名数组，必须继承自Throwable	      不会导致事务回滚的异常类名字数组
+
 事务回滚
 @Transactional
 public void test() {
@@ -15,7 +70,6 @@ public void test() {
    try {
       int i = 1 / 0;
    } catch (NullPointerException e) {
-
    }
 }
 
@@ -26,7 +80,6 @@ public void test() {
    try {
       int i = 1 / 0;
    } catch (ArithmeticException e) {
-
    }
 }
 @Transactional(rollbackFor = ArithmeticException.class)
@@ -35,7 +88,6 @@ public void test() {
    try {
       int i = 1 / 0;
    } catch (ArithmeticException e) {
-
    }
 }
 @Transactional(noRollbackFor = ArithmeticException.class)
