@@ -1,7 +1,7 @@
-package agent;
+package other;
 
 /**
- * 功能描述:
+ * 功能描述: 泛型测试
  *
  * @author zhangam
  * @time 2019/3/19 16:55
@@ -15,13 +15,13 @@ import java.util.List;
 //虽然Test<T1,T2>，但类名字仍为Test。T1,T2只是告诉我们new的时候要加入泛型，更方便通用
 //T1,T2可以任意定义，比如改成K,V都可以
 //他们不会关联到其他类，只是在本类中通用
-public class Test<T1, T2> {
+public class T_Test<T1, T2> {
 
     public static void main(String[] args) {
-        System.out.println(new Test().getT1());
-        System.out.println(new Test<String, Integer>().getT2());
-        new Test<String, String>().getClassName(2);//T1,T2在new的时候用到，这里都为String
-        new Test().getClassAndList(Integer.class);
+        System.out.println(new T_Test().getT1());
+        System.out.println(new T_Test<String, Integer>().getT2());
+        new T_Test<String, String>().getClassName(2);//T1,T2在new的时候用到，这里都为String
+        new T_Test().getClassAndList(Integer.class);
         //HashMap的括号里面不能是T,E,T1,T2等不确定的东西,但可以是?
         HashMap<?, ?> map = new HashMap<Object, String>();
         List<?> list = new ArrayList<String>();

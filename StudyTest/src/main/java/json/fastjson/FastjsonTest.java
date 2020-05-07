@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * 功能描述:
- * 1.默认不序列化null值对应key
+ * 1.序列化时默认不序列化null值对应key
  * 2.若想序列化，JSONObject.toJSONString(Object, SerializerFeature.WriteMapNullValue);
  * QuoteFieldNames———-输出key时是否使用双引号,默认为true
  * WriteMapNullValue——–是否输出值为null的字段,默认为false
@@ -34,7 +34,7 @@ public class FastjsonTest {
 
     public static void main(String[] args) {
 
-        String string = "{\"id\":23,\"name\":\"lbj\",\"height\":2.06,\"like\":[\"basketball\",\"music\"],\"king\":true,\"map\":{\"map3\":\"map3\",\"map2\":\"map2\",\"map1\":\"map1\"},\"list\":[\"list1\",\"list2\",\"list3\"]}";
+        String string = "{\"id\":23,\"name\":\"lbj\",\"height\":2.06,\"like\":[\"basketball\",\"music\"],\"man\":true,\"map\":{\"map3\":\"map3\",\"map2\":\"map2\",\"map1\":\"map1\"},\"list\":[\"list1\",\"list2\",\"list3\"]}";
         Map map = new HashMap();
         map.put("map1", "map1");
         map.put("map2", "map2");
@@ -54,7 +54,7 @@ public class FastjsonTest {
         myMap.put("name", "lbj");
         myMap.put("height", 2.06);
         myMap.put("like", new String[]{"basketball", "music"});
-        myMap.put("king", true);
+        myMap.put("man", true);
         myMap.put("map", map);
         myMap.put("list", list);
         JSONObject jsonObject2 = JSONObject.parseObject(JSON.toJSONString(myMap));
@@ -66,7 +66,7 @@ public class FastjsonTest {
         person.setName("lbj");
         person.setHeight(2.06);
         person.setLike(new String[]{"basketball", "music"});
-        person.setKing(true);
+        person.setMan(true);
         person.setMap(map);
         person.setList(list);
         System.out.println(JSONObject.toJSON(person));

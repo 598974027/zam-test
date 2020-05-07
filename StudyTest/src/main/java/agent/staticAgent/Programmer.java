@@ -8,6 +8,8 @@ package agent.staticAgent;
  * @see
  **/
 public interface Programmer {
+
     // 程序员每天都写代码
     void coding();
+
 }

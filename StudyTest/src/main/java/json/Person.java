@@ -17,13 +17,13 @@ public class Person {
 
     private int id;
 
+    private boolean man;
+
     private String name;
 
     private double height;
 
     private String[] like;
-
-    private boolean king;
 
     private Map map;
 
