@@ -1,7 +1,10 @@
 package com.example.web_demo.schedule;
 
-//import org.springframework.scheduling.annotation.Scheduled;
-//import org.springframework.stereotype.Component;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 功能描述:
@@ -19,29 +22,17 @@ package com.example.web_demo.schedule;
  * @time 2019/6/17 14:26
  * @see
  **/
-//@Component
-//public class ScheduledTest {
-//
-//    @Scheduled(fixedDelay = 1000)
-//    public void test1() {
-//        System.out.println(Thread.currentThread().getName() + "--test1");
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(Thread.currentThread().getName() + "--test1");
-//    }
-//
-//    @Scheduled(fixedDelay = 1000)
-//    public void test2() {
-//        System.out.println(Thread.currentThread().getName() + "--test2");
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(Thread.currentThread().getName() + "--test2");
-//    }
-//
-//}
+@Component
+public class ScheduleTest {
+
+    @Scheduled(fixedDelay = 6000)
+    public void test1() {
+        System.out.println(Thread.currentThread().getName() + " Time :" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " TEST1");
+    }
+
+    @Scheduled(cron = "0/5 * * * * ?")
+    public void test2() {
+        System.out.println(Thread.currentThread().getName() + " Time :" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " TEST2");
+    }
+
+}

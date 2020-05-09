@@ -14,13 +14,12 @@ import java.util.Date;
  * @time 2020/5/7 14:32
  * @see
  **/
-public class PrintTimeJob extends QuartzJobBean {
+public class QuartzTest extends QuartzJobBean {
 
     @Override
     public void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        //获取JobDetail中关联的数据
-        String msg = (String) context.getJobDetail().getJobDataMap().get("msg");
-        System.out.println("current time :" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "---" + msg);
+        Object msg = context.getJobDetail().getJobDataMap().get("msg");
+        System.out.println(Thread.currentThread().getName() + " Time :" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " " + msg);
     }
 
 }
