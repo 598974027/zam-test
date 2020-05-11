@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @Reference//(url = "dubbo://127.0.0.1:20882")
+//    @Reference(url = "dubbo://127.0.0.1:20881")
+    @Reference(version = "1.0.0", timeout = 10000, retries = 1)
     private HelloService helloService;
 
     @RequestMapping(value = "/hello")
