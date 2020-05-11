@@ -22,9 +22,6 @@ public class Controller {
         return new RestTemplate();
     }
 
-    @Resource
-    private FeginApi feginApi;
-
     /**
      * ribbon负载均衡调用
      *
@@ -45,6 +42,9 @@ public class Controller {
     public String getHystrixFailBack() {
         return "ribbon熔断处理";
     }
+
+    @Resource
+    private FeginApi feginApi;
 
     /**
      * fegin负载均衡调用

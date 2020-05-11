@@ -18,8 +18,11 @@ public class Controller {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String home() {
-        discoveryClient.getServices();
-        discoveryClient.getInstances("server");
+        discoveryClient.getServices().forEach(o -> {
+            discoveryClient.getInstances(o).forEach(p -> {
+                System.out.println(p.getUri());
+            });
+        });
         return "hello, service provider port is from:" + port;
     }
 
