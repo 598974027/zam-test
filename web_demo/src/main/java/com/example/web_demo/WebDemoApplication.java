@@ -1,12 +1,14 @@
 package com.example.web_demo;
 
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.util.Properties;
 
 @SpringBootApplication
 @EnableScheduling//定时任务
@@ -19,7 +21,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class WebDemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WebDemoApplication.class, args);
+//        SpringApplication.run(WebDemoApplication.class, args);
+
+//        SpringApplication springApplication = new SpringApplication(WebDemoApplication.class);
+//        springApplication.setDefaultProperties(new Properties());
+//        springApplication.run(args);
+
+        new SpringApplicationBuilder(WebDemoApplication.class).properties(new Properties()).run(args);
     }
 
 }

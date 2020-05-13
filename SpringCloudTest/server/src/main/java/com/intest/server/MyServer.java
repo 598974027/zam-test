@@ -18,9 +18,6 @@ public class MyServer extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(MyServer.class, args);
-//        SpringApplication application = new SpringApplication(MyServer.class);
-//        application.setBannerMode(Banner.Mode.OFF);
-//        application.run(args);
     }
 
 }
