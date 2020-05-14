@@ -8,7 +8,7 @@ import com.netflix.loadbalancer.Server;
 import java.util.List;
 
 /**
- * 功能描述:
+ * 功能描述: 自定义负载均衡算法
  *
  * @author zhangam
  * @time 2020/5/11 16:34
