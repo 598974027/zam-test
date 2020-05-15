@@ -27,15 +27,15 @@ public class Controller {
      *
      * @return
      */
-    @HystrixCommand(fallbackMethod = "getHystrixFailBack")
     @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @HystrixCommand(fallbackMethod = "getHystrixFailBack")
     public String test() {
         ResponseEntity<String> responseEntity = getRestTemplate().getForEntity("http://producer-zam/hello", String.class);
         return responseEntity.getBody();
     }
 
     /**
-     * 指定的备用方法和原方法的参数要相同
+     * ribbon负载均衡调用 容错处理方法
      *
      * @return
      */
@@ -52,6 +52,7 @@ public class Controller {
      * @return
      */
     @RequestMapping(value = "/test2", method = RequestMethod.GET)
+//    @HystrixCommand(fallbackMethod = "getHystrixFailBack")
     public String test2() {
         return feginApi.hello();
     }
