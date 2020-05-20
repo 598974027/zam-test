@@ -2,6 +2,7 @@ package com.example.web_demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.web_demo.cache.CacheTest;
+import com.example.web_demo.jwt.PassToken;
 import com.example.web_demo.jwt.TokenService;
 import com.example.web_demo.jwt.User;
 import com.example.web_demo.jwt.UserLoginToken;
@@ -33,6 +34,7 @@ public class MyController {
 
     @RequestMapping(value = "/test2", method = RequestMethod.POST)
     public String test2() {
+        cacheTest.getUser(2);
         return "test2";
     }
 
@@ -56,6 +58,7 @@ public class MyController {
         }
     }
 
+//    @PassToken
     @UserLoginToken
     @GetMapping("/getMessage")
     public String getMessage() {

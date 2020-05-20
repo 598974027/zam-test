@@ -19,7 +19,7 @@ public class QuartzTest extends QuartzJobBean {
     @Override
     public void executeInternal(JobExecutionContext context) throws JobExecutionException {
         Object msg = context.getJobDetail().getJobDataMap().get("msg");
-        System.out.println(Thread.currentThread().getName() + " Time :" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " " + msg);
+//        System.out.println(Thread.currentThread().getName() + " Time :" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " " + msg);
     }
 
 }

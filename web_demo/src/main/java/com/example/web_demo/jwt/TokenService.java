@@ -4,10 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.stereotype.Service;
 
-/**
- * @author zhangam
- * @date 2018-07-08 21:04
- */
 @Service("TokenService")
 public class TokenService {
 

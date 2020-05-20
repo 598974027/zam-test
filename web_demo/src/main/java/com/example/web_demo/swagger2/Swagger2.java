@@ -24,11 +24,11 @@ public class Swagger2 {
 
     @Bean
     public static SwaggerInfo setSwaggerInfo() {
-        SwaggerInfo s = new SwaggerInfo();
-        s.setTitle("接口服务");
-        s.setContact("node001");
-        s.setVersion("1.0");
-        return s;
+        SwaggerInfo swaggerInfo = new SwaggerInfo();
+        swaggerInfo.setTitle("接口服务");
+        swaggerInfo.setContact("zam");
+        swaggerInfo.setVersion("1.0");
+        return swaggerInfo;
     }
 
     /**

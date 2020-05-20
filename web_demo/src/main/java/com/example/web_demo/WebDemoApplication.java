@@ -4,10 +4,12 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.net.InetAddress;
 import java.util.Properties;
 
 @SpringBootApplication
@@ -27,7 +29,13 @@ public class WebDemoApplication {
 //        springApplication.setDefaultProperties(new Properties());
 //        springApplication.run(args);
 
-        new SpringApplicationBuilder(WebDemoApplication.class).properties(new Properties()).run(args);
+        final ConfigurableApplicationContext applicationContext = new SpringApplicationBuilder(WebDemoApplication.class).properties(new Properties()).run(args);
+        try {
+            System.out.println("本地http服务已启动，http://" + InetAddress.getLocalHost().getHostAddress() + ":" + applicationContext.getEnvironment().getPropertySources().get("server.ports").getProperty("local.server.port") + "/swagger-ui.html");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
