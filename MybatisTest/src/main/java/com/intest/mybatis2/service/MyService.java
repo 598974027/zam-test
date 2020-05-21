@@ -33,11 +33,9 @@ public class MyService {
     @Autowired
     private TerminalMapper2 terminalMapper2;
 
-    @Autowired
     @Resource(name = "db1JdbcTemplate")
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
     @Resource(name = "db1NamedParameterJdbcTemplate")
     private NamedParameterJdbcTemplate namedTemplate;
 
