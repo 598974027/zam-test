@@ -2,11 +2,11 @@ package com.example.web_demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.web_demo.cache.CacheTest;
-import com.example.web_demo.jwt.PassToken;
 import com.example.web_demo.jwt.TokenService;
 import com.example.web_demo.jwt.User;
 import com.example.web_demo.jwt.UserLoginToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +24,7 @@ public class MyController {
     private CacheManager cacheManager;
 
     @Autowired
+    @Qualifier("cacheTest")
     private CacheTest cacheTest;
 
     @RequestMapping(value = "/test1", method = RequestMethod.GET)
@@ -58,7 +59,7 @@ public class MyController {
         }
     }
 
-//    @PassToken
+    //    @PassToken
     @UserLoginToken
     @GetMapping("/getMessage")
     public String getMessage() {

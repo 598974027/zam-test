@@ -5,7 +5,6 @@ import com.intest.mybatis2.dao.db1.TestMapper;
 import com.intest.mybatis2.dao.db2.TerminalMapper2;
 import com.intest.mybatis2.entity.DbcMd5RecordEntity;
 import com.intest.mybatis2.entity.DbcUsedRecord;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -24,13 +23,13 @@ import java.util.Map;
 @Service
 public class MyService {
 
-    @Autowired
+    @Resource
     private TestMapper testMapper;
 
-    @Autowired
+    @Resource
     private TerminalMapper terminalMapper;
 
-    @Autowired
+    @Resource
     private TerminalMapper2 terminalMapper2;
 
     @Resource(name = "db1JdbcTemplate")
