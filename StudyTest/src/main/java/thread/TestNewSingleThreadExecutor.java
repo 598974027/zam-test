@@ -18,30 +18,28 @@ import java.util.concurrent.Executors;
  *
  * @author zhangam
  * @time
- * @version
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
 public class TestNewSingleThreadExecutor {
 
-	public static void main(String[] args) {
-		ExecutorService singleThreadExecutor = Executors
-				.newSingleThreadExecutor();
-		for (int i = 0; i < 10; i++) {
-			final int index = i;
-			singleThreadExecutor.execute(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						System.out.println(Thread.currentThread().getName());
-						System.out.println(index);
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-	}
+    public static void main(String[] args) {
+        ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+        for (int i = 0; i < 10; i++) {
+            final int index = i;
+            singleThreadExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        System.out.println(Thread.currentThread().getName());
+                        System.out.println(index);
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
 
 }

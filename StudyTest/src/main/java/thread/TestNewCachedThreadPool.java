@@ -18,29 +18,28 @@ import java.util.concurrent.Executors;
  *
  * @author zhangam
  * @time
- * @version
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
 public class TestNewCachedThreadPool {
 
-	public static void main(String[] args) {
-		ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
-		for (int i = 0; i < 10; i++) {
-			final int index = i;
+    public static void main(String[] args) {
+        ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+        for (int i = 0; i < 10; i++) {
+            final int index = i;
 //			try {
 //				Thread.sleep(index * 1000);
 //			} catch (InterruptedException e) {
 //				e.printStackTrace();
 //			}
-			cachedThreadPool.execute(new Runnable() {
-				@Override
-				public void run() {
-					System.out.println(Thread.currentThread().getName());
-					System.out.println(index);
-				}
-			});
-		}
-	}
+            cachedThreadPool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println(Thread.currentThread().getName());
+                    System.out.println(index);
+                }
+            });
+        }
+    }
 
 }
