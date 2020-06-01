@@ -31,6 +31,7 @@ public class WebDemoApplication {
 
         final ConfigurableApplicationContext applicationContext = new SpringApplicationBuilder(WebDemoApplication.class).properties(new Properties()).run(args);
         try {
+            System.out.println(applicationContext.getEnvironment().getProperty("server.port", Integer.class));
             System.out.println("本地http服务已启动，http://" + InetAddress.getLocalHost().getHostAddress() + ":" + applicationContext.getEnvironment().getPropertySources().get("server.ports").getProperty("local.server.port") + "/swagger-ui.html");
         } catch (Exception e) {
             e.printStackTrace();

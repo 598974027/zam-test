@@ -8,10 +8,7 @@ import com.example.web_demo.jwt.UserLoginToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/test")
@@ -33,6 +30,8 @@ public class MyController {
         return "test1";
     }
 
+    //跨域请求
+    @CrossOrigin(origins = "http://localhost:4000")
     @RequestMapping(value = "/test2", method = RequestMethod.POST)
     public String test2() {
         cacheTest.getUser(2);
