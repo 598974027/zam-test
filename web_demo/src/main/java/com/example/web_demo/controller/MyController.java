@@ -1,6 +1,7 @@
 package com.example.web_demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.web_demo.aspect.UseCase;
 import com.example.web_demo.cache.CacheTest;
 import com.example.web_demo.jwt.TokenService;
 import com.example.web_demo.jwt.User;
@@ -8,7 +9,10 @@ import com.example.web_demo.jwt.UserLoginToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/test")
@@ -24,6 +28,7 @@ public class MyController {
     @Qualifier("cacheTest")
     private CacheTest cacheTest;
 
+    @UseCase(id = "zam")
     @RequestMapping(value = "/test1", method = RequestMethod.GET)
     public String test1() {
         cacheTest.getUser(2);
@@ -31,7 +36,7 @@ public class MyController {
     }
 
     //跨域请求
-    @CrossOrigin(origins = "http://localhost:4000")
+//    @CrossOrigin(origins = "http://localhost:4000")
     @RequestMapping(value = "/test2", method = RequestMethod.POST)
     public String test2() {
         cacheTest.getUser(2);

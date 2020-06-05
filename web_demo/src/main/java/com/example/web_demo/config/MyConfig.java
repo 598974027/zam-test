@@ -37,17 +37,17 @@ public class MyConfig implements WebMvcConfigurer {
         };
     }
 
-    @Bean
-    public FilterRegistrationBean addFilter() {
-        FilterRegistrationBean frBean = new FilterRegistrationBean();
-        frBean.setFilter(new MyFilter());
-        frBean.addUrlPatterns("/test/*");
-        return frBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean addFilter() {
+//        FilterRegistrationBean frBean = new FilterRegistrationBean();
+//        frBean.setFilter(new MyFilter());
+//        frBean.addUrlPatterns("/test/*");
+//        return frBean;
+//    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(myInterceptor).addPathPatterns("/test/*").excludePathPatterns("/test/test1");
+//        registry.addInterceptor(myInterceptor).addPathPatterns("/test/*").excludePathPatterns("/test/test1");
     }
 
     @Override
