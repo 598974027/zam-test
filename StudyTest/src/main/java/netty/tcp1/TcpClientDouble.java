@@ -1,6 +1,5 @@
 package netty.tcp1;
 
-import com.intest.base.util.ByteUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -53,7 +52,6 @@ public class TcpClientDouble {
         while (true) {
             System.out.println("aaaa:---" + channel.isActive());
             System.out.println("bbbb:---" + channel.isOpen());
-            channel.writeAndFlush(Unpooled.copiedBuffer(ByteUtil.hexStringToBytes("4F11DE00000001012E00000041020814031A0A00309A0111011D0000000A180A01011201141A010322011A2A010A3201003A013040B406120100")));
             Thread.sleep(5000);
         }
     }

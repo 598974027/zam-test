@@ -1,7 +1,5 @@
 package netty.tcp1;
 
-import com.intest.base.util.DateUtil;
-
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
@@ -49,8 +47,6 @@ public class MySSLContext {
 //                if (privateKey != null) {
 //                    System.out.println("服务端证书私钥:" + Base64.getEncoder().encodeToString(privateKey.getEncoded()));
 //                }
-                System.out.println("开始时间：" + DateUtil.formatLocalDateTime(DateUtil.dateConvertToLocalDateTime(certificate.getNotBefore()), DateUtil.DATETIME_FORMATTER_WITH_MILL));
-                System.out.println("失效时间：" + DateUtil.formatLocalDateTime(DateUtil.dateConvertToLocalDateTime(certificate.getNotAfter()), DateUtil.DATETIME_FORMATTER_WITH_MILL));
             }
             //保存客户端的授权证书
             KeyStore ks2 = KeyStore.getInstance("JKS");
@@ -71,8 +67,6 @@ public class MySSLContext {
 //                if (privateKey != null) {
 //                    System.out.println("授权证书私钥:" + Base64.getEncoder().encodeToString(privateKey.getEncoded()));
 //                }
-                System.out.println("开始时间：" + DateUtil.formatLocalDateTime(DateUtil.dateConvertToLocalDateTime(certificate.getNotBefore()), DateUtil.DATETIME_FORMATTER_WITH_MILL));
-                System.out.println("失效时间：" + DateUtil.formatLocalDateTime(DateUtil.dateConvertToLocalDateTime(certificate.getNotAfter()), DateUtil.DATETIME_FORMATTER_WITH_MILL));
             }
             serverContext = SSLContext.getInstance("TLSv1.2");
             //双向
@@ -109,8 +103,6 @@ public class MySSLContext {
 //                if (privateKey != null) {
 //                    System.out.println("客户端证书私钥:" + Base64.getEncoder().encodeToString(privateKey.getEncoded()));
 //                }
-                System.out.println("开始时间：" + DateUtil.formatLocalDateTime(DateUtil.dateConvertToLocalDateTime(certificate.getNotBefore()), DateUtil.DATETIME_FORMATTER_WITH_MILL));
-                System.out.println("失效时间：" + DateUtil.formatLocalDateTime(DateUtil.dateConvertToLocalDateTime(certificate.getNotAfter()), DateUtil.DATETIME_FORMATTER_WITH_MILL));
             }
             //保存服务端的授权证书
             KeyStore ks2 = KeyStore.getInstance("JKS");
@@ -130,8 +122,6 @@ public class MySSLContext {
 //                if (privateKey != null) {
 //                    System.out.println("授权证书私钥:" + Base64.getEncoder().encodeToString(privateKey.getEncoded()));
 //                }
-                System.out.println("开始时间：" + DateUtil.formatLocalDateTime(DateUtil.dateConvertToLocalDateTime(certificate.getNotBefore()), DateUtil.DATETIME_FORMATTER_WITH_MILL));
-                System.out.println("失效时间：" + DateUtil.formatLocalDateTime(DateUtil.dateConvertToLocalDateTime(certificate.getNotAfter()), DateUtil.DATETIME_FORMATTER_WITH_MILL));
             }
             clientContext = SSLContext.getInstance("TLSv1.2");
             //双向

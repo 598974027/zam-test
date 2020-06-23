@@ -1,6 +1,5 @@
 package netty.tcp;
 
-import com.intest.base.util.DateUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
@@ -23,7 +22,6 @@ public class TcpServerHandler extends ChannelInboundHandlerAdapter {
 //        buf.readBytes(bytes);
 //        System.out.println(ctx.channel().localAddress().toString() + "服务端收到数据**********" + msg + " " + ctx.channel().isOpen());
         System.out.println(ctx.channel().remoteAddress().toString() + "服务端收到数据**********" + msg + " " + ctx.channel().isActive());
-        System.out.println(DateUtil.formatLocalDateTime(LocalDateTime.now(), DateUtil.DATETIME_FORMATTER_WITH_MILL));
         ctx.write("hahaha");
 //        ctx.writeAndFlush(ctx.toString() + "  " + ctx.name());//.addListener(ChannelFutureListener.CLOSE);
         ReferenceCountUtil.release(msg);

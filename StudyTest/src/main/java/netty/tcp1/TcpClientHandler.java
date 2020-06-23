@@ -1,12 +1,12 @@
 package netty.tcp1;
 
-import com.intest.base.util.DateUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import org.apache.hadoop.hbase.shaded.org.apache.commons.httpclient.util.DateUtil;
 
 import javax.net.ssl.SSLSession;
 import java.security.cert.X509Certificate;
@@ -46,8 +46,6 @@ public class TcpClientHandler extends ChannelInboundHandlerAdapter {
 //                                    System.out.println(i + "-公钥：" + Base64.getEncoder().encodeToString(arr[i].getPublicKey().getEncoded()));
 //                                    System.out.println(i + "-摘要算法：" + arr[i].getSigAlgName());
 //                                    System.out.println(i + "-签名：" + Base64.getEncoder().encodeToString(arr[i].getSignature()));
-                                    System.out.println("开始时间：" + DateUtil.formatLocalDateTime(DateUtil.dateConvertToLocalDateTime(arr[i].getNotBefore()), DateUtil.DATETIME_FORMATTER_WITH_MILL));
-                                    System.out.println("失效时间：" + DateUtil.formatLocalDateTime(DateUtil.dateConvertToLocalDateTime(arr[i].getNotAfter()), DateUtil.DATETIME_FORMATTER_WITH_MILL));
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
