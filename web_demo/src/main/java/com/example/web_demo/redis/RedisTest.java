@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  * @see
  **/
 @Component
-@Order(value = 1)
 public class RedisTest implements CommandLineRunner {
 
 //    @Resource

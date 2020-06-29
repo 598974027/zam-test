@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MyService {
 
-    @Autowired
-    private TestMapper testMapper;
+//    @Autowired
+//    private TestMapper testMapper;
 
     public int test1() {
-        return testMapper.selectFinishedDbcRecord().size();
+//        return testMapper.selectFinishedDbcRecord().size();
+        return 0;
     }
 
 }

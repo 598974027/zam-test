@@ -14,16 +14,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QuartzConfig {
 
-    @Bean
-    public JobDetail printTimeJobDetail() {
-        return JobBuilder.newJob(QuartzTest.class)
-                .usingJobData("msg", "Hello Quartz").storeDurably()
-                .withIdentity("printTimeJobDetail").build();
-    }
+//    @Bean
+//    public JobDetail printTimeJobDetail() {
+//        return JobBuilder.newJob(QuartzTest.class)
+//                .usingJobData("msg", "Hello Quartz").storeDurably()
+//                .withIdentity("printTimeJobDetail").build();
+//    }
 
-    @Bean
-    public Trigger printTimeTrigger() {
-        return TriggerBuilder.newTrigger().forJob(printTimeJobDetail())
+//    @Bean
+//    public Trigger printTimeTrigger() {
+//        return TriggerBuilder.newTrigger().forJob(printTimeJobDetail())
                 /**
                  * 1.Seconds (0~59)
                  * 2.Minutes (0~59)
@@ -46,8 +46,8 @@ public class QuartzConfig {
                  * W ：“Weekday”的缩写。只能用在day-of-month字段。用来描叙最接近指定天的工作日（周一到周五）。例如：在day-of-month字段用“15W”指“最接近这个月第15天的工作日”，即如果这个月第15天是周六，那么触发器将会在这个月第14天即周五触发；如果这个月第15天是周日，那么触发器将会在这个月第 16天即周一触发；如果这个月第15天是周二，那么就在触发器这天触发。注意一点：这个用法只会在当前月计算值，不会越过当前月。“W”字符仅能在 day-of-month指明一天，不能是一个范围或列表。也可以用“LW”来指定这个月的最后一个工作日，即最后一个星期五。
                  * # ：只能用在day-of-week字段。用来指定这个月的第几个周几。例：在day-of-week字段用"6#3" or "FRI#3"指这个月第3个周五（6指周五，3指第3个）。如果指定的日期不存在，触发器就不会触发。
                  */
-                .withSchedule(CronScheduleBuilder.cronSchedule("0/5 * * * * ?"))
-                .withIdentity("printTimeTrigger").build();
-    }
+//                .withSchedule(CronScheduleBuilder.cronSchedule("0/5 * * * * ?"))
+//                .withIdentity("printTimeTrigger").build();
+//    }
 
 }

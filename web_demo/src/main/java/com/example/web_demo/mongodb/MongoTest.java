@@ -3,7 +3,6 @@ package com.example.web_demo.mongodb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,8 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class MongoTest implements CommandLineRunner {
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+//    @Autowired
+//    private MongoTemplate mongoTemplate;
 
     @Override
     public void run(String... args) throws Exception {

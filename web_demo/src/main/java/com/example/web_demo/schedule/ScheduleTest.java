@@ -25,14 +25,14 @@ import java.util.Date;
 @Component
 public class ScheduleTest {
 
-    @Scheduled(fixedDelay = 6000)
-    public void test1() {
+//    @Scheduled(fixedDelay = 6000)
+//    public void test1() {
 //        System.out.println(Thread.currentThread().getName() + " Time :" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " TEST1");
-    }
+//    }
 
-    @Scheduled(cron = "0/5 * * * * ?")
-    public void test2() {
+//    @Scheduled(cron = "0/5 * * * * ?")
+//    public void test2() {
 //        System.out.println(Thread.currentThread().getName() + " Time :" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " TEST2");
-    }
+//    }
 
 }

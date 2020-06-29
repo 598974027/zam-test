@@ -21,25 +21,25 @@ import java.io.IOException;
 @Component
 public class HelloReceiver {
 
-    @Autowired
-    private AmqpTemplate rabbitTemplate;
+//    @Autowired
+//    private AmqpTemplate rabbitTemplate;
 
-    @RabbitHandler
-    @RabbitListener(queues = "zamzamzam")
-    public void process(Message message, Channel channel) {
-        try {
-            String str = new String(message.getBody());
-            System.out.println("Receiver  : " + str);
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-        } catch (Exception e) {
-            try {
-                channel.basicRecover();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
-        Message message2 = new Message("hello".getBytes(), new MessageProperties());
-        this.rabbitTemplate.send("exchange-zam", "", message2);
-    }
+//    @RabbitHandler
+//    @RabbitListener(queues = "zamzamzam")
+//    public void process(Message message, Channel channel) {
+//        try {
+//            String str = new String(message.getBody());
+//            System.out.println("Receiver  : " + str);
+//            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+//        } catch (Exception e) {
+//            try {
+//                channel.basicRecover();
+//            } catch (IOException e1) {
+//                e1.printStackTrace();
+//            }
+//        }
+//        Message message2 = new Message("hello".getBytes(), new MessageProperties());
+//        this.rabbitTemplate.send("exchange-zam", "", message2);
+//    }
 
 }

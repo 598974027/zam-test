@@ -28,7 +28,7 @@ public class NettyServer {
     //worker事件轮询线程组
     private EventLoopGroup worker = new NioEventLoopGroup();
 
-    @Value("${netty.port}")
+    @Value("${netty.port:2222}")
     private Integer port;
 
     @Autowired

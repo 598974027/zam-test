@@ -20,8 +20,8 @@ import java.sql.Types;
 @Component
 public class JDBCTest implements CommandLineRunner {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+//    @Autowired
+//    JdbcTemplate jdbcTemplate;
 
     @Override
     public void run(String... args) throws Exception {
