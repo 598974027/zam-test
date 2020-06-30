@@ -6,6 +6,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,10 +23,10 @@ import java.io.IOException;
 public class HelloReceiver {
 
 //    @Autowired
-//    private AmqpTemplate rabbitTemplate;
+//    private RabbitTemplate rabbitTemplate;
 
 //    @RabbitHandler
-//    @RabbitListener(queues = "zamzamzam")
+//    @RabbitListener(queues = "zam_queue")
 //    public void process(Message message, Channel channel) {
 //        try {
 //            String str = new String(message.getBody());
@@ -39,7 +40,7 @@ public class HelloReceiver {
 //            }
 //        }
 //        Message message2 = new Message("hello".getBytes(), new MessageProperties());
-//        this.rabbitTemplate.send("exchange-zam", "", message2);
+//        rabbitTemplate.send("test", "", message2);
 //    }
 
 }

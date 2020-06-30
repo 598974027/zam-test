@@ -1,12 +1,15 @@
 package com.example.web_demo.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.web_demo.aspect.UseCase;
 import com.example.web_demo.cache.CacheTest;
 import com.example.web_demo.jwt.TokenService;
 import com.example.web_demo.jwt.User;
 import com.example.web_demo.jwt.UserLoginToken;
+import com.example.web_demo.mqtt.MqttSendGateWay;
+import com.example.web_demo.rabbitmq.HelloSend;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.csource.common.MyException;
@@ -25,5 +28,23 @@ import java.io.IOException;
 @RequestMapping("/test2")
 @Slf4j
 public class MyController2 {
+
+    @Autowired
+    private HelloSend helloSend;
+
+    @Autowired
+    private MqttSendGateWay mqttSendGateWay;
+
+    @RequestMapping(value = "/send", method = RequestMethod.GET)
+    public String send() {
+//        helloSend.sendObject("123456");
+        return "send";
+    }
+
+    @RequestMapping(value = "/send2", method = RequestMethod.GET)
+    public String send2() {
+        mqttSendGateWay.sendToMqtt("hello2", 1, "post message");
+        return "send";
+    }
 
 }
