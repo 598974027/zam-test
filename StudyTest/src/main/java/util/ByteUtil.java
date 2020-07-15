@@ -12,48 +12,41 @@ import java.util.List;
  */
 public class ByteUtil {
 
-    private static final byte[] Hex2Ascii = {'0', '1', '2', '3', '4', '5',
-            '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+    private static final byte[] Hex2Ascii = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-    private static final byte[] Ascii2Hex = {0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
+    private static final byte[] Ascii2Hex =
+            {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+                    0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
 
     /**
-     * Short类型数据转化为Bytes数组，采用小端模式
+     * 切换大小端
      */
-    public static byte[] short2Bytes(short value) {
-        byte[] byteRet = new byte[2];
-        byteRet[0] = (byte) ((value) & 0xff);
-        byteRet[1] = (byte) ((value >> 8) & 0xff);
-        return byteRet;
+    public static byte[] changeEndian(byte[] a) {
+        byte[] b = new byte[a.length];
+        for (int i = 0; i < b.length; i++) {
+            b[i] = a[b.length - i - 1];
+        }
+        return b;
     }
 
     /**
-     * 将小端模式的Bytes数组转化为Short类型数值
+     * byte数组转化为short类型数值，采用小端模式
      */
     public static short bytes2Short(byte[] arr) {
-        short value = (short) (((arr[1] << 8) & 0xff00) | (arr[0] & 0xff));
+        short value = 0;
+        for (int i = 0; i < 2; i++) {
+            value |= (arr[i] & 0xff) << (8 * i);
+        }
         return value;
     }
 
     /**
-     * Integer类型数据转化为Bytes数组，采用小端模式
-     */
-    public static byte[] integer2Bytes(int value) {
-        byte[] byteRet = new byte[4];
-        for (int i = 0; i < 4; i++) {
-            byteRet[i] = (byte) ((value >> 8 * i) & 0xff);
-        }
-        return byteRet;
-    }
-
-    /**
-     * 将小端模式的Bytes数组转化为Integer类型数值
+     * byte数组转化为int类型数值，采用小端模式
      */
     public static int bytes2Integer(byte[] arr) {
         int value = 0;
@@ -64,18 +57,7 @@ public class ByteUtil {
     }
 
     /**
-     * Long类型数据转化为Bytes数组，采用小端模式
-     */
-    public static byte[] long2Bytes(long value) {
-        byte[] byteRet = new byte[8];
-        for (int i = 0; i < 8; i++) {
-            byteRet[i] = (byte) ((value >> 8 * i) & 0xff);
-        }
-        return byteRet;
-    }
-
-    /**
-     * 将小端模式的Bytes数组转化为Long类型数值
+     * byte数组转化为long类型数值，采用小端模式
      */
     public static long bytes2Long(byte[] arr) {
         long value = 0L;
@@ -86,7 +68,95 @@ public class ByteUtil {
     }
 
     /**
-     * Float类型数据转化为Bytes数组，采用小端模式
+     * byte数组转化为float类型数值，采用小端模式
+     */
+    public static float bytes2Float(byte[] arr) {
+        int value = 0;
+        for (int i = 0; i < 4; i++) {
+            value |= ((long) (arr[i] & 0xff)) << (8 * i);
+        }
+        return Float.intBitsToFloat(value);
+    }
+
+    /**
+     * byte数组转化为duoble类型数值，采用小端模式
+     */
+    public static double bytes2Double(byte[] arr) {
+        long value = 0;
+        for (int i = 0; i < 8; i++) {
+            value |= ((long) (arr[i] & 0xff)) << (8 * i);
+        }
+        return Double.longBitsToDouble(value);
+    }
+
+    /**
+     * short类型数据转化为byte数组，采用小端模式
+     */
+    public static byte[] short2Bytes(short value) {
+        byte[] byteRet = new byte[2];
+        for (int i = 0; i < 2; i++) {
+            byteRet[i] = (byte) ((value >> 8 * i) & 0xff);
+        }
+        return byteRet;
+    }
+
+    /**
+     * short类型数据转化为byte数组，采用大端模式
+     */
+    public static byte[] short2BigEndianBytes(short value) {
+        byte[] byteRet = new byte[2];
+        for (int i = 0; i < 2; i++) {
+            byteRet[i] = (byte) ((value >> 8 * (1 - i)) & 0xff);
+        }
+        return byteRet;
+    }
+
+    /**
+     * int类型数据转化为byte数组，采用小端模式
+     */
+    public static byte[] integer2Bytes(int value) {
+        byte[] byteRet = new byte[4];
+        for (int i = 0; i < 4; i++) {
+            byteRet[i] = (byte) ((value >> 8 * i) & 0xff);
+        }
+        return byteRet;
+    }
+
+    /**
+     * int类型数据转化为byte数组，采用大端模式
+     */
+    public static byte[] integer2BigEndianBytes(int value) {
+        byte[] byteRet = new byte[4];
+        for (int i = 0; i < 4; i++) {
+            byteRet[i] = (byte) ((value >> 8 * (3 - i)) & 0xff);
+        }
+        return byteRet;
+    }
+
+    /**
+     * long类型数据转化为byte数组，采用小端模式
+     */
+    public static byte[] long2Bytes(long value) {
+        byte[] byteRet = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            byteRet[i] = (byte) ((value >> 8 * i) & 0xff);
+        }
+        return byteRet;
+    }
+
+    /**
+     * long类型数据转化为byte数组，采用大端模式
+     */
+    public static byte[] long2BigEndianBytes(long value) {
+        byte[] byteRet = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            byteRet[i] = (byte) ((value >> 8 * (7 - i)) & 0xff);
+        }
+        return byteRet;
+    }
+
+    /**
+     * float类型数据转化为byte数组，采用小端模式
      */
     public static byte[] float2Bytes(float d) {
         int value = Float.floatToIntBits(d);
@@ -98,18 +168,19 @@ public class ByteUtil {
     }
 
     /**
-     * 将小端模式的Bytes数组转化为Float类型数值
+     * float类型数据转化为byte数组，采用大端模式
      */
-    public static float bytes2Float(byte[] arr) {
-        int value = 0;
+    public static byte[] float2BigEndianBytes(float d) {
+        int value = Float.floatToIntBits(d);
+        byte[] byteRet = new byte[4];
         for (int i = 0; i < 4; i++) {
-            value |= ((long) (arr[i] & 0xff)) << (8 * i);
+            byteRet[i] = (byte) ((value >> 8 * (3 - i)) & 0xff);
         }
-        return Float.intBitsToFloat(value);
+        return byteRet;
     }
 
     /**
-     * duoble类型数据转化为Bytes数组，采用小端模式
+     * duoble类型数据转化为byte数组，采用小端模式
      */
     public static byte[] double2Bytes(double d) {
         long value = Double.doubleToRawLongBits(d);
@@ -121,59 +192,135 @@ public class ByteUtil {
     }
 
     /**
-     * 将小端模式的Bytes数组转化为duoble类型数值
+     * duoble类型数据转化为byte数组，采用大端模式
      */
-    public static double bytes2Double(byte[] arr) {
+    public static byte[] double2BigEndianBytes(double d) {
+        long value = Double.doubleToRawLongBits(d);
+        byte[] byteRet = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            byteRet[i] = (byte) ((value >> 8 * (7 - i)) & 0xff);
+        }
+        return byteRet;
+    }
+
+    /**
+     * 从字节数组中，制定的位置获取一个短整型数值，采用小端模式
+     */
+    public static short toShort(byte[] btBuffer, int startIndex) {
+        short value = 0;
+        for (int i = 0; i < 2; i++) {
+            value |= (btBuffer[startIndex + i] & 0xff) << (8 * i);
+        }
+        return value;
+    }
+
+    /**
+     * 从字节数组中，制定的位置获取一个短整型数值，采用大端模式
+     */
+    public static short toBigEndianShort(byte[] btBuffer, int startIndex) {
+        short value = 0;
+        for (int i = 0; i < 2; i++) {
+            value |= (btBuffer[startIndex + i] & 0xff) << (8 * (1 - i));
+        }
+        return value;
+    }
+
+    /**
+     * 从字节数组中，制定的位置获取一个整型数值，采用小端模式
+     */
+    public static int toInt32(byte[] btBuffer, int startIndex) {
+        int value = 0;
+        for (int i = 0; i < 4; i++) {
+            value |= (btBuffer[startIndex + i] & 0xff) << (8 * i);
+        }
+        return value;
+    }
+
+    /**
+     * 从字节数组中，制定的位置获取一个整型数值，采用大端模式
+     */
+    public static int toBigEndianInt32(byte[] btBuffer, int startIndex) {
+        int value = 0;
+        for (int i = 0; i < 4; i++) {
+            value |= (btBuffer[startIndex + i] & 0xff) << (8 * (3 - i));
+        }
+        return value;
+    }
+
+    /**
+     * 从字节数组中，制定的位置获取一个整型数值，采用小端模式
+     */
+    public static long toInt64(byte[] btBuffer, int startIndex) {
+        long value = 0L;
+        for (int i = 0; i < 8; i++) {
+            value |= ((long) (btBuffer[startIndex + i] & 0xff)) << (8 * i);
+        }
+        return value;
+    }
+
+    /**
+     * 从字节数组中，制定的位置获取一个整型数值，采用大端模式
+     */
+    public static long toBigEndianInt64(byte[] btBuffer, int startIndex) {
+        long value = 0L;
+        for (int i = 0; i < 8; i++) {
+            value |= ((long) (btBuffer[startIndex + i] & 0xff)) << (8 * (7 - i));
+        }
+        return value;
+    }
+
+    /**
+     * 从字节数组中，制定的位置获取一个数值，采用小端模式
+     */
+    public static float toFloat(byte[] btBuffer, int startIndex) {
+        int value = 0;
+        for (int i = 0; i < 4; i++) {
+            value |= ((long) (btBuffer[startIndex + i] & 0xff)) << (8 * i);
+        }
+        return Float.intBitsToFloat(value);
+    }
+
+    /**
+     * 从字节数组中，制定的位置获取一个数值，采用大端模式
+     */
+    public static float toBigEndianFloat(byte[] btBuffer, int startIndex) {
+        int value = 0;
+        for (int i = 0; i < 4; i++) {
+            value |= ((long) (btBuffer[startIndex + i] & 0xff)) << (8 * (3 - i));
+        }
+        return Float.intBitsToFloat(value);
+    }
+
+    /**
+     * 从字节数组中，制定的位置获取一个双精度类型数值，采用小端模式
+     */
+    public static double toDouble(byte[] btBuffer, int startIndex) {
         long value = 0;
         for (int i = 0; i < 8; i++) {
-            value |= ((long) (arr[i] & 0xff)) << (8 * i);
+            value |= ((long) (btBuffer[startIndex + i] & 0xff)) << (8 * i);
         }
         return Double.longBitsToDouble(value);
     }
 
     /**
-     * 从字节数组中，制定的位置获取一个短整型数值
+     * 从字节数组中，制定的位置获取一个双精度类型数值，采用大端模式
      */
-    public static short toShort(byte[] btBuffer, int startIndex) {
-        byte[] data16 = new byte[2];
-        System.arraycopy(btBuffer, startIndex, data16, 0, 2);
-        return bytes2Short(data16);
+    public static double toBigEndianDouble(byte[] btBuffer, int startIndex) {
+        long value = 0;
+        for (int i = 0; i < 8; i++) {
+            value |= ((long) (btBuffer[startIndex + i] & 0xff)) << (8 * (7 - i));
+        }
+        return Double.longBitsToDouble(value);
     }
 
     /**
-     * 从字节数组中，制定的位置获取一个整型数值
+     * byte转化为十六进制字符串
      */
-    public static int toInt32(byte[] btBuffer, int startIndex) {
-        byte[] data32 = new byte[4];
-        System.arraycopy(btBuffer, startIndex, data32, 0, 4);
-        return bytes2Integer(data32);
-    }
-
-    /**
-     * 从字节数组中，制定的位置获取一个整型数值
-     */
-    public static long toInt64(byte[] btBuffer, int startIndex) {
-        byte[] data64 = new byte[8];
-        System.arraycopy(btBuffer, startIndex, data64, 0, 8);
-        return bytes2Long(data64);
-    }
-
-    /**
-     * 从字节数组中，制定的位置获取一个数值
-     */
-    public static float toFloat(byte[] btBuffer, int startIndex) {
-        byte[] data32 = new byte[4];
-        System.arraycopy(btBuffer, startIndex, data32, 0, 4);
-        return bytes2Float(data32);
-    }
-
-    /**
-     * 从字节数组中，制定的位置获取一个双精度类型数值
-     */
-    public static double toDouble(byte[] btBuffer, int startIndex) {
-        byte[] data64 = new byte[8];
-        System.arraycopy(btBuffer, startIndex, data64, 0, 8);
-        return bytes2Double(data64);
+    public static String toHexString(byte b) {
+        byte[] asciiBytes = new byte[2];
+        asciiBytes[0] = Hex2Ascii[(int) b >> 4 & 0x0F];
+        asciiBytes[1] = Hex2Ascii[(int) b & 0x0F];
+        return new String(asciiBytes);
     }
 
     /**
@@ -263,6 +410,18 @@ public class ByteUtil {
             result.add(src[i]);
         }
         return result;
+    }
+
+    /**
+     * 在List<Byte>上添加byte[]
+     */
+    public static void arrayAddToList(List<Byte> desc, byte[] src) {
+        if (src == null || src.length == 0) {
+            return;
+        }
+        for (int i = 0; i < src.length; i++) {
+            desc.add(src[i]);
+        }
     }
 
 }

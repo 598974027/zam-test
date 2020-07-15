@@ -1,0 +1,18 @@
+zam_fdfstracker:
+image: season/fastdfs:1.2
+volumes:
+  - "/data/fastdfs/tracker:/fastdfs/tracker/data"
+command: tracker
+network_mode: host
+
+zam_fdfsstorage:
+image: season/fastdfs:1.2
+volumes:
+  - "/data/fastdfs/storage:/fastdfs/storage/data"
+  - "/data/fastdfs/storage:/fastdfs/store_path"
+depends_on:
+  - zam_fdfstracker
+environment:
+  TRACKER_SERVER: 139.159.185.20:22122
+command: storage
+network_mode: host

@@ -34,20 +34,20 @@ public class FastDFSClient {
 
     static {
         try {
-            String filePath = new ClassPathResource("fdfs_client.conf").getFile().getAbsolutePath();
-            ClientGlobal.init(filePath);
+//            String filePath = new ClassPathResource("fdfs_client.conf").getFile().getAbsolutePath();
+//            ClientGlobal.init(filePath);
             trackerClient = new TrackerClient();
-//            ClientGlobal.setG_connect_timeout(100);
-//            ClientGlobal.setG_network_timeout(3000);
-//            ClientGlobal.setG_anti_steal_token(false);
-//            ClientGlobal.setG_charset("UTF-8");
-//            ClientGlobal.setG_secret_key("FastDFS1234567890");
-//            ClientGlobal.setG_tracker_http_port(1234);
-//            InetSocketAddress[] tracker_servers = new InetSocketAddress[1];
-//            tracker_servers[0] = new InetSocketAddress("139.159.185.20", 22122);
-//            TrackerGroup trackerGroup = new TrackerGroup(tracker_servers);
-//            ClientGlobal.setG_tracker_group(trackerGroup);
-//            trackerClient = new TrackerClient(trackerGroup);
+            ClientGlobal.setG_connect_timeout(100);
+            ClientGlobal.setG_network_timeout(3000);
+            ClientGlobal.setG_anti_steal_token(false);
+            ClientGlobal.setG_charset("UTF-8");
+            ClientGlobal.setG_secret_key("FastDFS1234567890");
+            ClientGlobal.setG_tracker_http_port(80);
+            InetSocketAddress[] tracker_servers = new InetSocketAddress[1];
+            tracker_servers[0] = new InetSocketAddress("139.159.185.20", 22122);
+            TrackerGroup trackerGroup = new TrackerGroup(tracker_servers);
+            ClientGlobal.setG_tracker_group(trackerGroup);
+            trackerClient = new TrackerClient(trackerGroup);
             trackerServer = trackerClient.getConnection();
             storageServer = new StorageServer("139.159.185.20", 23000, 0);
             storageClient1 = new StorageClient1(trackerServer, storageServer);
@@ -97,8 +97,8 @@ public class FastDFSClient {
     public static void main(String[] args) throws Exception {
 //        uploadFile(IOUtils.toByteArray(new FileInputStream("D:/zam.txt")), "txt");
 //        uploadFile(IOUtils.toByteArray(new FileInputStream("D:/xxx.png")), "png");
-        downloadFile("group1", "00/00/wKgA-F77AtyAII6RAAAANxZALME319.txt");
-        deleteFile("group1", "00/00/wKgA-F77A8aAYcFvAAKKkA2lCao166.png");
+//        downloadFile("group1", "00/00/ZGQABl8HDmaAFxtDAAAACuNwwp0879.txt");
+//        deleteFile("group1", "00/00/wKgA-F77A8aAYcFvAAKKkA2lCao166.png");
     }
 
 }
