@@ -12,7 +12,7 @@
 
 <h1><% System.out.println(request.getRequestURL().toString()); %></h1>
 <h1><% System.out.println(response.getStatus()); %></h1>
-
+<h1>${message}</h1>
 
 </body>
 </html>

@@ -1,11 +1,5 @@
 package com.example.web_demo.rabbitmq;
 
-import org.springframework.amqp.core.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import java.util.HashMap;
-
 /**
  * 功能描述:
  *
@@ -13,9 +7,9 @@ import java.util.HashMap;
  * @time 2019/5/29 9:08
  * @see
  **/
-@Configuration
-public class RabbitConfig {
-
+//@Configuration
+//public class RabbitConfig {
+//
 //    @Bean
 //    public Queue queue1() {
 //        return new Queue("queue1", true, false, false);
@@ -60,5 +54,5 @@ public class RabbitConfig {
 //    Binding bindingExchange3(Queue queue3, HashExchange exchange3) {
 //        return new Binding(queue3.getName(), Binding.DestinationType.QUEUE, exchange3.getName(), "10", new HashMap());
 //    }
-
-}
+//
+//}
