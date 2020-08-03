@@ -59,19 +59,6 @@ public void test() {
    jdbcTemplate.update("insert into zam(name,info,createtime) values(?,?,now())", "zam", "hero");
    int i = 1 / 0;
 }
-@Transactional
-public void test() {
-   testMapper.insertUser("zam", "hero");
-   int i = 1 / 0;
-}
-@Transactional
-public void test() {
-   testMapper.insertUser("zam", "hero");
-   try {
-      int i = 1 / 0;
-   } catch (NullPointerException e) {
-   }
-}
 
 事务不回滚
 @Transactional
@@ -82,22 +69,13 @@ public void test() {
    } catch (ArithmeticException e) {
    }
 }
-@Transactional(rollbackFor = ArithmeticException.class)
-public void test() {
-   testMapper.insertUser("zam", "hero");
-   try {
-      int i = 1 / 0;
-   } catch (ArithmeticException e) {
-   }
-}
-@Transactional(noRollbackFor = ArithmeticException.class)
-public void test() {
-   testMapper.insertUser("zam", "hero");
-   int i = 1 / 0;
-}
 
 不能插入，因为事务只读
 @Transactional(readOnly = true)
 public void test() {
    testMapper.insertUser("zam", "hero");
 }
+
+结论一：对于@Transactional可以保证RuntimeException错误的回滚，如果想保证非RuntimeException错误的回滚，需要加上rollbackFor=Exception.class参数。
+结论二：try catch只是对异常是否可以被@Transactional 感知 到有影响。如果错误抛到切面可以感知到的地步，那就可以起作用。
+结论三：由于REQUIRED属性，“两个事务”其实是一个事务，处理能力看报错时刻，是否添加了处理非RuntimeException的能力。
