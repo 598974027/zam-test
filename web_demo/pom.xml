@@ -13,7 +13,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>web_demo</name>
     <description>Demo project for Spring Boot</description>
-    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,16 +25,25 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- spring-boot tomcat jsp 支持开启 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- jstl 支持开启 -->
         <dependency>
-            <groupId>javax.servlet</groupId>
+            <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -164,6 +172,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <includeEmptyDirectories>true</includeEmptyDirectories>
+                </configuration>
+            </plugin>
             <!-- 打jar包的插件 -->
             <!--            <plugin>-->
             <!--                <groupId>org.apache.maven.plugins</groupId>-->
@@ -189,12 +205,14 @@
                 <includes>
                     <include>**/**</include>
                 </includes>
+                <filtering>false</filtering>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**/**</include>
                 </includes>
+                <filtering>false</filtering>
             </resource>
         </resources>
     </build>
