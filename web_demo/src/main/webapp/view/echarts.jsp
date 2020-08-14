@@ -12,14 +12,6 @@
     <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
 </head>
 <body>
-<%
-    //指定允许其他域名访问
-    response.setHeader("Access-Control-Allow-Origin", "*");
-    //响应类型
-    response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, OPTIONS, DELETE");
-    //响应头设置
-    response.setHeader("Access-Control-Allow-Headers", "Content-Type, x-requested-with, X-Custom-Header, HaiYi-Access-Token");
-%>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <div id="main" style="width: 600px;height:400px;"></div>
 <script type="text/javascript">

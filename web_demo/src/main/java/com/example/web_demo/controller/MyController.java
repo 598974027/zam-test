@@ -35,8 +35,6 @@ public class MyController {
         return "test1";
     }
 
-    //跨域请求
-//    @CrossOrigin(origins = "http://localhost:4000")
     @RequestMapping(value = "/test2", method = RequestMethod.POST)
     public String test2() {
         cacheTest.getUser(2);

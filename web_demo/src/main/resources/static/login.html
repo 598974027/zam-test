@@ -4,6 +4,38 @@
     <meta charset="UTF-8">
     <title>登录</title>
 </head>
+<script src="js/jquery/jquery-1.8.2.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: 'http://localhost:8080/areaUser/area/AddressManage/getOverviewMap.do',
+            type: 'get',
+            dataType: 'jsonp', //请求方式为jsonp
+            // crossDomain: true,
+            jsonp: 'onBack',
+            // jsonpCallback: "onBack",
+            data: {},
+            // 注意后台返回数据类型text/plain application/json
+            /*@RequestMapping(value ="/getOverviewMap.do", produces = "text/plain;charset=utf-8")
+            public @ResponseBody String getOverviewMap(HttpServletRequest request,) {
+                String onBack = request.getParameter("onBack");
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("name", "nick");
+                map.put("age", 23);
+                return onBack + "(" + JSONObject.toJSONString(map) + ")";
+            }*/
+            success: function (data, textStatus, jqXHR) {
+                alert(data.name);
+            },
+            error: function (xmlHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+            complete: function (xmlHttpRequest, textStatus) {
+                // alert('complete');
+            }
+        });
+    });
+</script>
 <body>
 登录
 </body>
