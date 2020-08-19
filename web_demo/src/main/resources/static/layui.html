@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>LayUI实例</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="js/layui/css/layui.css" media="all">
+    <script src="js/layui/layui.js"></script>
+    <style type="text/css">
+        body {
+            height: 100%;
+            width: 100%;
+            /*overflow: hidden;*/
+            background-size: cover;
+            margin: 0 auto;
+        }
+
+        .body_bg {
+            /*height: 1000px;;*/
+            text-align: center;
+            display: block;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .t_title {
+            height: 65px;
+            font-size: 20px;
+            display: block;
+            /*padding: 10px;*/
+            text-align: left;
+        }
+
+        .t_test {
+            background-color: white;
+            width: 100%;
+
+        }
+
+        .table_scroll {
+            height: 505px;
+            overflow-y: auto;
+        }
+
+        td {
+            font-size: 12px !important;
+        }
+
+        .layui-form-checkbox span {
+            height: 30px;
+        }
+
+        .layui-field-title {
+            border-top: 1px solid white;
+        }
+
+        table {
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+<div class="body_bg">
+    <div class="t_title">
+        <fieldset class="layui-elem-field layui-field-title">
+            <blockquote class="layui-elem-quote">
+                <legend>权限管理</legend>
+            </blockquote>
+        </fieldset>
+    </div>
+    <div class="t_test">
+        <div class="layui-form-item">
+            <div style="padding-bottom: 10px; width:100%;height:40px">
+                <div class="layui-input-inline" style="width: 147px;">
+                    <button class="layui-btn" id="addLeaguerInfoSpecial">
+                        <i class="layui-icon" style="font-size: 20px; ">&#xe608;</i> 添加菜单
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr class="layui-bg-blue">
+        <div class="yys-fluid yys-wrapper">
+            <div class="layui-row lay-col-space20">
+                <div class="layui-cos-xs12 layui-col-sm12 layui-col-md12 layui-col-lg12">
+                    <section class="yys-body animated rotateInDownLeft">
+                        <div class="yys-body-content clearfix changepwd">
+                            <div class="layui-col-lg12 layui-col-md10 layui-col-sm12 layui-col-xs12" style="width:100%">
+                                <div class="user-tables">
+                                    <table id="userTables" lay-filter="userTables"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['element', 'tree', 'layer', 'form', 'upload', 'treeGrid'], function () {
+        const $ = layui.jquery, tree = layui.tree;
+        const datatable = [
+            {
+                "sd_id": 1,
+                "sd_name": "测试集团",
+                "sd_up_id": null
+            }, {
+
+                "sd_id": 2,
+                "sd_name": "测试集团",
+                "sd_up_id": 1
+            }, {
+
+                "sd_id": 3,
+                "sd_name": "测试集团A",
+                "sd_up_id": 2
+            }, {
+
+                "sd_id": 4,
+                "sd_name": "测试集团",
+                "sd_up_id": 1
+            }
+        ];
+        const treeGrid = layui.treeGrid;
+        treeGrid.render({
+            elem: '#userTables',
+            data: datatable,
+            cellMinWidth: 100,
+            treeId: 'sd_id', //树形id字段名称
+            treeUpId: 'sd_up_id', //树形父id字段名称
+            treeShowName: 'sd_name', //以树形式显示的字段
+            cols: [[
+                {type: 'checkbox'},
+                {field: 'sd_name', edit: 'text', width: '100', title: '水果'},
+                {field: 'sd_id', edit: 'text', width: '300', title: 'id'},
+                {field: 'sd_up_id', edit: 'text', width: '300', title: 'pId'}
+            ]],
+            page: false
+        });
+    });
+</script>
+</body>
+</html>
