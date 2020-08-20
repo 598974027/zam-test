@@ -14,12 +14,6 @@
     <packaging>war</packaging>
 
     <dependencies>
-        <!--声明spring boot内嵌tomcat的作用范围  在运行时不起作用-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>

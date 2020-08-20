@@ -9,7 +9,9 @@
     <modules>
         <module>server</module>
         <module>producer</module>
+        <module>producer2</module>
         <module>consumer</module>
+        <module>consumer2</module>
         <module>zuul</module>
     </modules>
     <packaging>pom</packaging>
