@@ -1,6 +1,7 @@
 package com.notioni.webflux.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,9 +10,11 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 /**
- * 功能描述: HelloController
+ * 功能描述: HelloController WebApplicationType
  *
  * @author zhangaomin
  * @time 2020/8/20 9:14
@@ -85,6 +88,43 @@ public class HelloController {
     @GetMapping("mono3")
     public Mono<Object> mono3() {
         return Mono.empty();
+    }
+
+    private String createStr() {
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+        }
+        return "some string";
+    }
+
+    @GetMapping("/t1")
+    private String get1() {
+        log.info("get1 start");
+        String result = createStr();
+        log.info("get1 end.");
+        return result;
+    }
+
+    @GetMapping("/t2")
+    private Mono<String> get2() {
+        log.info("get2 start");
+        Mono<String> result = Mono.fromSupplier(() -> createStr());
+        log.info("get2 end.");
+        return result;
+    }
+
+    @GetMapping(value = "/tt", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<String> fluxData() {
+        Flux<String> result = Flux
+                .fromStream(IntStream.range(1, 5).mapToObj(i -> {
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e) {
+                    }
+                    return "flux data--" + i;
+                })).log();
+        return result;
     }
 
 }

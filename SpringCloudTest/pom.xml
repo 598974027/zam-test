@@ -22,6 +22,8 @@
         <project.build.target>1.8</project.build.target>
         <project.build.source>1.8</project.build.source>
         <project.build.java.version>1.8</project.build.java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
         <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
     </properties>

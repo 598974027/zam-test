@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(value = "producer-zam", fallback = FeginFailBackImpl.class)
+@FeignClient(value = "zam-producer", fallback = FeginFailBackImpl.class)
 public interface FeginApi {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)

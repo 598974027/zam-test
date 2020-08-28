@@ -35,4 +35,29 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <dockerHost>http://10.27.100.235:2375</dockerHost>
+                    <imageName>${project.artifactId}:${project.version}</imageName>
+                    <baseImage>primetoninc/jdk:1.8</baseImage>
+                    <workdir>/ROOT</workdir>
+                    <cmd>["java", "-version"]</cmd>
+                    <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/ROOT</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

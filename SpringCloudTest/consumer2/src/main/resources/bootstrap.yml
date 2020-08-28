@@ -2,7 +2,7 @@ server:
   port: 1234
 spring:
   application:
-    name: consumer-zam
+    name: consumer
   cloud:
     nacos:
       discovery:

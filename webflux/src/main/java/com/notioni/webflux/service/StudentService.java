@@ -2,6 +2,7 @@ package com.notioni.webflux.service;
 
 import com.notioni.webflux.entity.Student;
 import com.notioni.webflux.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
@@ -10,11 +11,8 @@ import reactor.core.publisher.Mono;
 @Service
 public class StudentService {
 
-    private final StudentRepository studentRepository;
-
-    public StudentService(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
+    @Autowired
+    private StudentRepository studentRepository;
 
     public Flux<Student> findAll() {
         return studentRepository.findAll();

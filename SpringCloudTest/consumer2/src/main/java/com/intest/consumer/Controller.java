@@ -22,7 +22,7 @@ public class Controller {
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test() {
-        ResponseEntity<String> responseEntity = getRestTemplate().getForEntity("http://producer-zam/hello", String.class);
+        ResponseEntity<String> responseEntity = getRestTemplate().getForEntity("http://producer/hello", String.class);
         return responseEntity.getBody();
     }
 

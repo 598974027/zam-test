@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zam-consumer
+  labels:
+    app: zam-consumer
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zam-consumer
+  template:
+    metadata:
+      labels: 
+        app: zam-consumer
+    spec:
+      containers:
+      - name: zam-consumer
+        image: consumer:1.0-SNAPSHOT
+        ports:
+        - containerPort: 8100
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zam-consumer-service
+spec:
+  selector: 
+    app: zam-consumer
+  ports:
+  - name: "8200"
+    nodePort: 31002
+    port: 8200
+    protocol: TCP
+    targetPort: 8200
+  type: NodePort

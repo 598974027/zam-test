@@ -1,5 +1,6 @@
 package com.notioni.webflux;
 
+import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -17,12 +18,22 @@ import java.util.concurrent.TimeUnit;
  **/
 public class ReactorTest {
 
-    public static void main(String[] args) {
-        Mono.fromSupplier(() -> "Hello").log().subscribe(System.out::println);
-        Mono.justOrEmpty(Optional.of("Hello")).log().subscribe(System.out::println);
-        Mono.create(sink -> sink.success("Hello")).log().subscribe(System.out::println);
-
+    public static void main(String[] args) throws InterruptedException {
+//        Publisher Subscriber Subscription Processor
+//        Mono.fromSupplier(() -> "Hello")
+//                .log()
+//                .subscribe(System.out::println);
+//
+//        Mono.justOrEmpty(Optional.of("Hello"))
+//                .log().
+//                subscribe(System.out::println);
+//
+//        Mono.create(sink -> sink.success("Hello"))
+//                .log()
+//                .subscribe(System.out::println);
+//
 //        Flux.just("hello", "webflux", "spring", "boot")
+//                .log()
 //                .subscribe(System.out::println);
 
 //        Flux.range(1, 10)
@@ -42,10 +53,10 @@ public class ReactorTest {
 //            System.out.println(Thread.currentThread().getName() + " " + x);
 //        });
 
-        Flux.generate(sink -> {
-            sink.next("Hello");
-            sink.complete();
-        }).log().subscribe(System.out::println);
+//        Flux.generate(sink -> {
+//            sink.next("Hello");
+//            sink.complete();
+//        }).log().subscribe(System.out::println);
 
 //        final Random random = new Random();
 //        Flux.generate(ArrayList::new, (list, sink) -> {
@@ -121,6 +132,17 @@ public class ReactorTest {
 //
 //        Flux.range(1, 100).reduce((x, y) -> x + y).subscribe(System.out::println);
 //        Flux.range(1, 100).reduceWith(() -> 100, (x, y) -> x + y).subscribe(System.out::println);
+
+        Flux<Integer> source1 = Flux.just(1, 2, 3, 4, 5);
+        Flux<Integer> source2 = Flux.just(6, 7, 8, 9, 10);
+        Flux<Integer> concat = Flux.concat(source1, source2);
+        concat.subscribe(System.out::println);
+
+        Flux<Long> flux1 = Flux.interval(Duration.ofSeconds(1), Duration.ofSeconds(1));
+        Flux<Long> flux2 = Flux.interval(Duration.ofSeconds(2), Duration.ofSeconds(1));
+        Flux<Long> merge = Flux.merge(flux1, flux2);
+        merge.subscribe(System.out::println);
+        Thread.sleep(5000);
 
     }
 

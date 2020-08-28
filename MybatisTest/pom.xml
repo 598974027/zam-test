@@ -14,7 +14,13 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.encoding>UTF-8</project.build.encoding>
+        <project.build.target>1.8</project.build.target>
+        <project.build.source>1.8</project.build.source>
+        <project.build.java.version>1.8</project.build.java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>

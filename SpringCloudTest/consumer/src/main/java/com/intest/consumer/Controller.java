@@ -30,7 +30,7 @@ public class Controller {
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     @HystrixCommand(fallbackMethod = "getHystrixFailBack")
     public String test() {
-        ResponseEntity<String> responseEntity = getRestTemplate().getForEntity("http://producer-zam/hello", String.class);
+        ResponseEntity<String> responseEntity = getRestTemplate().getForEntity("http://zam-producer/hello", String.class);
         return responseEntity.getBody();
     }
 
