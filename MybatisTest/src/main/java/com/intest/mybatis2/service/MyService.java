@@ -50,7 +50,6 @@ public class MyService {
         int i = 1 / 0;
     }
 
-    @Transactional
     public int test1() {
         testMapper.selectFinishedDbcRecord();
         return testMapper.selectFinishedDbcRecord().size();

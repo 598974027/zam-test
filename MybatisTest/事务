@@ -76,6 +76,20 @@ public void test() {
    testMapper.insertUser("zam", "hero");
 }
 
-结论一：对于@Transactional可以保证RuntimeException错误的回滚，如果想保证非RuntimeException错误的回滚，需要加上rollbackFor=Exception.class参数。
-结论二：try catch只是对异常是否可以被@Transactional 感知 到有影响。如果错误抛到切面可以感知到的地步，那就可以起作用。
-结论三：由于REQUIRED属性，“两个事务”其实是一个事务，处理能力看报错时刻，是否添加了处理非RuntimeException的能力。
+@Transactional只能应用到public方法才有效
+对于@Transactional可以保证RuntimeException错误的回滚，如果想保证非RuntimeException错误的回滚，需要加上rollbackFor=Exception.class参数。
+try catch后面必须加throw new RuntimeException(e.getMessage())才能回滚，不然事务不回滚。
+由于REQUIRED属性，“两个事务”其实是一个事务，处理能力看报错时刻，是否添加了处理非RuntimeException的能力。
+若同一类中的其他没有@Transactional注解的方法内部调用有@Transactional注解的方法，有@Transactional注解的方法的事务被忽略，不会发生回滚。
+
+正确的设置@Transactional的propagation属性
+需要注意下面三种propagation可以不启动事务。本来期望目标方法进行事务管理，但若是错误的配置这三种 propagation，事务将不会发生回滚。
+TransactionDefinition.PROPAGATION_SUPPORTS：如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。
+TransactionDefinition.PROPAGATION_NOT_SUPPORTED：以非事务方式运行，如果当前存在事务，则把当前事务挂起。
+TransactionDefinition.PROPAGATION_NEVER：以非事务方式运行，如果当前存在事务，则抛出异常。
+
+正确的设置@Transactional的rollbackFor属性
+默认情况下，如果在事务中抛出了未检查异常（继承自 RuntimeException 的异常）或者 Error，则 Spring 将回滚事务；除此之外，Spring 不会回滚事务。
+如果在事务中抛出其他类型的异常，并期望 Spring 能够回滚事务，可以指定 rollbackFor。例：
+@Transactional(propagation= Propagation.REQUIRED,rollbackFor= MyException.class)
+通过分析 Spring 源码可以知道，若在目标方法中抛出的异常是 rollbackFor 指定的异常的子类，事务同样会回滚。
