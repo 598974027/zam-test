@@ -93,3 +93,17 @@ TransactionDefinition.PROPAGATION_NEVER：以非事务方式运行，如果当�
 如果在事务中抛出其他类型的异常，并期望 Spring 能够回滚事务，可以指定 rollbackFor。例：
 @Transactional(propagation= Propagation.REQUIRED,rollbackFor= MyException.class)
 通过分析 Spring 源码可以知道，若在目标方法中抛出的异常是 rollbackFor 指定的异常的子类，事务同样会回滚。
+
+当我们需要在事务控制的service层类中使用try catch去捕获异常后，就会使事务控制失效，因为该类的异常并没有抛出，就不是触发事务管理机制。
+怎样才能即使用try catch去捕获异常，而又让出现异常后spring回滚呢，这里就要用到TransactionAspectSupport.currentTransactionStatus().setRollbackOnly()
+//假设这是一个service类的片段
+try{
+    //出现异常
+} catch (Exception e) {
+    e.printStackTrace();
+    //设置手动回滚
+    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+}
+//此时return语句能够执行
+return xxx;
+
