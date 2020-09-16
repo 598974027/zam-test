@@ -3,6 +3,7 @@ package com.example.web_demo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.web_demo.aspect.UseCase;
 import com.example.web_demo.cache.CacheTest;
+import com.example.web_demo.jwt.PassToken;
 import com.example.web_demo.jwt.TokenService;
 import com.example.web_demo.jwt.User;
 import com.example.web_demo.jwt.UserLoginToken;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/test")
-public class MyController {
+@RequestMapping("/token")
+public class TokenController {
 
     @Autowired
     private TokenService tokenService;
@@ -29,16 +30,9 @@ public class MyController {
     private CacheTest cacheTest;
 
     @UseCase(id = "zam")
-    @RequestMapping(value = "/test1", method = RequestMethod.GET)
-    public String test1() {
-        cacheTest.getUser(2);
-        return "test1";
-    }
-
-    @RequestMapping(value = "/test2", method = RequestMethod.POST)
-    public String test2() {
-        cacheTest.getUser(2);
-        return "test2";
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test() {
+        return "test";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -61,11 +55,16 @@ public class MyController {
         }
     }
 
-    //    @PassToken
+    @PassToken
+    @GetMapping("/getMessage1")
+    public String getMessage1() {
+        return "你已通过验证1";
+    }
+
     @UserLoginToken
-    @GetMapping("/getMessage")
-    public String getMessage() {
-        return "你已通过验证";
+    @GetMapping("/getMessage2")
+    public String getMessage2() {
+        return "你已通过验证2";
     }
 
 }

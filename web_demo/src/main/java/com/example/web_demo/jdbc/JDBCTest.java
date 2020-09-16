@@ -1,30 +1,30 @@
-package com.example.web_demo.jdbc;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Types;
-
-/**
- * 功能描述:
- *
- * @author zhangam
- * @time 2020/9/1 9:26
- * @see
- **/
-@Component
-public class JDBCTest implements CommandLineRunner {
-
+//package com.example.web_demo.jdbc;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.CommandLineRunner;
+//import org.springframework.jdbc.core.JdbcTemplate;
+//import org.springframework.stereotype.Component;
+//
+//import java.sql.Connection;
+//import java.sql.Date;
+//import java.sql.PreparedStatement;
+//import java.sql.Types;
+//
+///**
+// * 功能描述:
+// *
+// * @author zhangam
+// * @time 2020/9/1 9:26
+// * @see
+// **/
+//@Component
+//public class JDBCTest implements CommandLineRunner {
+//
 //    @Autowired
 //    JdbcTemplate jdbcTemplate;
-
-    @Override
-    public void run(String... args) throws Exception {
+//
+//    @Override
+//    public void run(String... args) throws Exception {
 //        Connection connection = jdbcTemplate.getDataSource().getConnection();
 //        connection.setAutoCommit(false);
 //        String sql = "select cast(? as  char(10))  a," +
@@ -48,6 +48,6 @@ public class JDBCTest implements CommandLineRunner {
 //        ps.execute();
 //        connection.commit();
 //        connection.close();
-    }
-
-}
+//    }
+//
+//}

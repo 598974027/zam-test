@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 功能描述:
+ * 功能描述: 自定义注解
  *
  * @author zhangam
  * @time 2019/10/15 10:25

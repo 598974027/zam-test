@@ -14,8 +14,8 @@ import java.io.PrintWriter;
 import java.util.Date;
 
 @Controller
-@RequestMapping("/test3")
-public class MyController3 {
+@RequestMapping("/view")
+public class ViewController {
 
     @GetMapping("/index")
     public String index(Model model) {

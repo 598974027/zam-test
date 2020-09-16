@@ -1,26 +1,26 @@
-package com.example.web_demo.quartz;
-
-import org.quartz.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-/**
- * 功能描述: Quartz的配置类
- *
- * @author zhangam
- * @time 2020/5/7 14:35
- * @see
- **/
-@Configuration
-public class QuartzConfig {
-
+//package com.example.web_demo.quartz;
+//
+//import org.quartz.*;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//
+///**
+// * 功能描述: Quartz的配置类
+// *
+// * @author zhangam
+// * @time 2020/5/7 14:35
+// * @see
+// **/
+//@Configuration
+//public class QuartzConfig {
+//
 //    @Bean
 //    public JobDetail printTimeJobDetail() {
 //        return JobBuilder.newJob(QuartzTest.class)
 //                .usingJobData("msg", "Hello Quartz").storeDurably()
 //                .withIdentity("printTimeJobDetail").build();
 //    }
-
+//
 //    @Bean
 //    public Trigger printTimeTrigger() {
 //        return TriggerBuilder.newTrigger().forJob(printTimeJobDetail())
@@ -49,5 +49,5 @@ public class QuartzConfig {
 //                .withSchedule(CronScheduleBuilder.cronSchedule("0/5 * * * * ?"))
 //                .withIdentity("printTimeTrigger").build();
 //    }
-
-}
+//
+//}

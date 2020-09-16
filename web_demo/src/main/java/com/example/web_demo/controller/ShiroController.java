@@ -23,7 +23,7 @@ import java.io.IOException;
  **/
 @RestController
 @RequestMapping("/shiro")
-public class LoginController {
+public class ShiroController {
 
     @GetMapping(value = "/login")
     public String login() {
