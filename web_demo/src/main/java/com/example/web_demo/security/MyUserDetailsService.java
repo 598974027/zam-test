@@ -27,19 +27,19 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (username.equals("admin") || username.equals("user")) {
+            SecurityUser securityUser = new SecurityUser();
+            securityUser.setUsername(username);
+            //模拟从数据库中获取原密码
+            securityUser.setPassword(passwordEncoder.encode(username));
             List<GrantedAuthority> authorities = new ArrayList<>();
+            //模拟从数据库中获取角色
             if (username.equals("admin")) {
-                /**
-                 * ROLE_注意前缀 ROLE_ADMIN 对应 ADMIN
-                 */
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + "ADMIN"));
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + "USER"));
-            } else {
+            } else if (username.equals("user")) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + "USER"));
             }
-            SecurityUser securityUser = new SecurityUser(authorities);
-            securityUser.setUsername(username);
-            securityUser.setPassword(passwordEncoder.encode(username));
+            securityUser.setAuthorities(authorities);
             return securityUser;
         } else {
             throw new UsernameNotFoundException("用户(" + username + ")不存在");

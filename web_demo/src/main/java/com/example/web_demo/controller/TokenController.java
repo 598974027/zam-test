@@ -3,10 +3,7 @@ package com.example.web_demo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.web_demo.aspect.UseCase;
 import com.example.web_demo.cache.CacheTest;
-import com.example.web_demo.jwt.PassToken;
-import com.example.web_demo.jwt.TokenService;
-import com.example.web_demo.jwt.User;
-import com.example.web_demo.jwt.UserLoginToken;
+import com.example.web_demo.jwt.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
@@ -18,9 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/token")
 public class TokenController {
-
-    @Autowired
-    private TokenService tokenService;
 
     @Autowired
     private CacheManager cacheManager;
@@ -44,7 +38,7 @@ public class TokenController {
                 jsonObject.put("message", "密码错误");
                 return jsonObject;
             } else {
-                String token = tokenService.getToken(userForBase);
+                String token = JwtUtil.getToken(userForBase);
                 jsonObject.put("token", token);
                 jsonObject.put("user", userForBase);
                 return jsonObject;

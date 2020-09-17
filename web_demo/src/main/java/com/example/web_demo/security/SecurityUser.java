@@ -18,12 +18,15 @@ public class SecurityUser implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-    private Collection<? extends GrantedAuthority> authorities = null;
+    /**
+     * 权限
+     */
+    private Collection<? extends GrantedAuthority> authorities;
 
     /**
      * 用户id
      */
-    private String userid;
+    private Integer id;
 
     /**
      * 用户名
@@ -34,10 +37,6 @@ public class SecurityUser implements Serializable, UserDetails {
      * 用户密码
      */
     private String password;
-
-    public SecurityUser(Collection<? extends GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

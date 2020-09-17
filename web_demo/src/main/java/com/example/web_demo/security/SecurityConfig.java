@@ -1,5 +1,6 @@
 package com.example.web_demo.security;
 
+import com.example.web_demo.jwt.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * 功能描述: spring security配置
@@ -27,6 +30,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private MyUserDetailsService myUserDetailsService;
+
+    @Autowired
+    private CustomizeAccessDeniedHandler customizeAccessDeniedHandler;
+
+    @Autowired
+    private CustomizeAuthenticationEntryPoint customizeAuthenticationEntryPoint;
+
+    @Autowired
+    private CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler;
+
+    @Autowired
+    private CustomizeAuthenticationFailureHandler customizeAuthenticationFailureHandler;
+
+    @Autowired
+    private CustomizeLogoutSuccessHandler customizeLogoutSuccessHandler;
+
+    @Autowired
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter; //JWT拦截器
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -48,14 +69,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/images/**",
                         "/v2/api-docs/**",
                         "/configuration/security",
-                        "/configuration/ui",
-                        "/login.html",
-                        "/success.html",
-                        "/failure.html");
+                        "/configuration/ui");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        /**
+         * 内存设置权限信息
+         */
 //        auth.inMemoryAuthentication()
 //                .withUser("admin") //管理员 ADMIN、USER角色
 //                .password("{noop}admin")
@@ -71,26 +92,74 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    @Override
+/*    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-//                .antMatchers(
-//                        "/aop1/**",
-//                        "/aop2/**",
-//                        "/security/admin/me*").permitAll() //忽略拦截
-//                .antMatchers("/security/admin/**").hasRole("ADMIN")
-//                .antMatchers("/security/user/**").hasRole("USER")
-                .anyRequest().authenticated()
-                .and().formLogin()
-                .loginPage("/login.html") //登录页面url
+        http.csrf().disable().cors(); //安全器令牌
+        http.authorizeRequests().antMatchers("/aop1/**", "/aop2/**").permitAll(); //忽略拦截
+        http.authorizeRequests().antMatchers("/security/admin/me*").permitAll();
+        http.authorizeRequests().anyRequest().authenticated(); //请求验证才能访问
+        http.formLogin()
+                .loginPage("/login.html")//登录页面url
                 .loginProcessingUrl("/j_spring_security_check") //登录处理url
                 .defaultSuccessUrl("/success.html") //登录成功跳转url
-                .failureUrl("/failure.html").permitAll() //登录失败跳转url
-                .and().logout()
+                .failureUrl("/failure.html") //登录失败跳转url
+                .permitAll();
+        http.logout()
                 .logoutUrl("/j_spring_security_logout") //注销url
-                .logoutSuccessUrl("/login.html").permitAll() //注销成功跳转url
-                .and().httpBasic()
-                .and().csrf().disable();
+                .logoutSuccessUrl("/login.html") //注销成功跳转url
+                .permitAll();
+    }*/
+
+/*    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable().cors();
+        http.authorizeRequests().antMatchers("/aop1/**", "/aop2/**").permitAll();
+        http.authorizeRequests().antMatchers("/security/admin/me*").permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
+        http.formLogin()
+                .loginPage("/login.html")
+                .loginProcessingUrl("/j_spring_security_check")
+                .successHandler(customizeAuthenticationSuccessHandler)
+                .failureHandler(customizeAuthenticationFailureHandler)
+                .permitAll();
+        http.logout()
+                .logoutUrl("/j_spring_security_logout")
+                .logoutSuccessHandler(customizeLogoutSuccessHandler)
+                .deleteCookies("JSESSIONID")
+                .permitAll();
+        http.exceptionHandling()
+                .accessDeniedHandler(customizeAccessDeniedHandler) //权限拒绝处理逻辑
+                .authenticationEntryPoint(customizeAuthenticationEntryPoint); //匿名用户访问无权限资源时的异常处理
+        http.headers().frameOptions().disable(); //防止iframe造成跨域
+    }*/
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable().cors()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .anyRequest()
+//                .access("@rbacauthorityservice.hasPermission(request, authentication)")
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginProcessingUrl("/j_spring_security_check")
+                .successHandler(customizeAuthenticationSuccessHandler)
+                .failureHandler(customizeAuthenticationFailureHandler)
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/j_spring_security_logout")
+                .logoutSuccessHandler(customizeLogoutSuccessHandler)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(customizeAccessDeniedHandler)
+                .authenticationEntryPoint(customizeAuthenticationEntryPoint);
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 }
