@@ -3,11 +3,9 @@ package json.fastjson;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import json.Person;
+import json.Person2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Date;
 
 /**
  * 功能描述:
@@ -34,6 +32,7 @@ public class FastjsonTest {
 
     public static void main(String[] args) {
 
+/*
         String string = "{\"id\":23,\"name\":\"lbj\",\"height\":2.06,\"like\":[\"basketball\",\"music\"],\"man\":true,\"map\":{\"map3\":\"map3\",\"map2\":\"map2\",\"map1\":\"map1\"},\"list\":[\"list1\",\"list2\",\"list3\"]}";
         Map map = new HashMap();
         map.put("map1", "map1");
@@ -79,7 +78,17 @@ public class FastjsonTest {
 
         //json对象转java对象
         System.out.println(JSONObject.toJavaObject(jsonObject, Person.class));
-
+*/
+        Person person = new Person();
+        person.setId(2);
+        person.setName("lbj");
+        person.setSize(23d);
+        person.setTime(new Date());
+        String str = JSON.toJSONString(person);
+        System.out.println(str);
+        JSONObject jsonObject = JSONObject.parseObject(str);
+        Person2 person2 = JSONObject.toJavaObject(jsonObject, Person2.class);
+        System.out.println(JSON.toJSONString(person2));
     }
 
 }

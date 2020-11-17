@@ -3,12 +3,19 @@ package com.example.web_demo.swagger2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
+import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 功能描述:
@@ -31,38 +38,45 @@ public class Swagger2 {
         return swaggerInfo;
     }
 
-    /**
-     * 功能描述: 创建RestApi
-     *
-     * @author zhangam
-     * @date 2019/2/21 19:08
-     * @since
-     */
     @Bean
     public Docket createRestApi() {
+        //添加head参数
+        List<Parameter> parameters = new ArrayList<>();
+        ParameterBuilder range = new ParameterBuilder();
+        range.name("Range").description("下载范围").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
+        parameters.add(range.build());
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.example"))
                 .paths(PathSelectors.any())
+                .build()
+                .securitySchemes(null)
+                .securityContexts(Arrays.asList(securityContexts()))
+//                .globalOperationParameters(parameters)
+                .apiInfo(new ApiInfoBuilder()
+                        .title(setSwaggerInfo().getTitle())
+                        .description(setSwaggerInfo().getDescription())
+                        .termsOfServiceUrl(setSwaggerInfo().getTermsOfServiceUrl())
+                        .contact(setSwaggerInfo().getContact())
+                        .version(setSwaggerInfo().getVersion())
+                        .build());
+    }
+
+    private SecurityScheme securitySchemes() {
+        return new ApiKey("Authorization", "Authorization", "header");
+    }
+
+    private SecurityContext securityContexts() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any())
                 .build();
     }
 
-    /**
-     * 功能描述: api显示信息
-     *
-     * @author zhangam
-     * @date 2019/2/21 19:08
-     * @since
-     */
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title(setSwaggerInfo().getTitle())
-                .description(setSwaggerInfo().getDescription())
-                .termsOfServiceUrl(setSwaggerInfo().getTermsOfServiceUrl())
-                .contact(setSwaggerInfo().getContact())
-                .version(setSwaggerInfo().getVersion())
-                .build();
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = new AuthorizationScope("xxx", "描述信息");
+        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
     }
 
 }

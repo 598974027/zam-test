@@ -1,6 +1,5 @@
 package json;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,20 +14,16 @@ import java.util.Map;
  * @see
  **/
 @Data
-public class Person {
+public class Person2 {
 
     private Integer id;
 
     private Boolean man;
 
-    @JSONField(serialize = false)
     private String name;
 
     private Double height;
 
-    private transient Double size;
-
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date time;
 
     private String[] like;
