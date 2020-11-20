@@ -1,19 +1,13 @@
 package com.example.web_demo.fastdfs;
 
-import cn.hutool.core.util.StrUtil;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.UUID;
 
@@ -37,8 +31,8 @@ public class FastDFSClient {
 //            String filePath = new ClassPathResource("fdfs_client.conf").getFile().getAbsolutePath();
 //            ClientGlobal.init(filePath);
             trackerClient = new TrackerClient();
-            ClientGlobal.setG_connect_timeout(100);
-            ClientGlobal.setG_network_timeout(3000);
+            ClientGlobal.setG_connect_timeout(30000);
+            ClientGlobal.setG_network_timeout(30000);
             ClientGlobal.setG_anti_steal_token(false);
             ClientGlobal.setG_charset("UTF-8");
             ClientGlobal.setG_secret_key("FastDFS1234567890");
@@ -56,34 +50,38 @@ public class FastDFSClient {
         }
     }
 
-    public static void uploadFile(byte[] byteFile, String extFile) {
-        NameValuePair[] meta_list = new NameValuePair[4];
-        meta_list[0] = new NameValuePair("fileName", "test");
-        meta_list[1] = new NameValuePair("fileLength", "");
-        meta_list[2] = new NameValuePair("fileExt", extFile);
-        meta_list[3] = new NameValuePair("fileAuthor", "zam");
+    public static void uploadFile(String groupName, String uploadFilename) {
+        NameValuePair[] metaList = new NameValuePair[4];
+        metaList[0] = new NameValuePair("fileName", "name");
+        metaList[1] = new NameValuePair("fileLength", "");
+        metaList[2] = new NameValuePair("fileExt", uploadFilename.split("\\.")[1]);
+        metaList[3] = new NameValuePair("fileAuthor", "zam");
         try {
-            String fileid = storageClient1.upload_file1("group1", byteFile, extFile, meta_list);
-            System.out.println(fileid);
+            String field = storageClient1.upload_file1(groupName, IOUtils.toByteArray(new FileInputStream(uploadFilename)), uploadFilename.split("\\.")[1], metaList);
+            System.out.println(field);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void downloadFile(String group_name, String remote_filename) {
+    public static void downloadFile(String groupName, String remoteFilename, String newFilename) {
         try {
-            byte[] result = storageClient1.download_file(group_name, remote_filename);
+            byte[] result = storageClient1.download_file(groupName, remoteFilename);
             if (result != null && result.length > 0) {
-                IOUtils.write(result, new FileOutputStream("D:/" + UUID.randomUUID().toString() + ".txt"));
+                if (newFilename == null) {
+                    IOUtils.write(result, new FileOutputStream("D:/" + UUID.randomUUID().toString() + "." + remoteFilename.split("\\.")[1]));
+                } else {
+                    IOUtils.write(result, new FileOutputStream("D:/" + newFilename + "." + remoteFilename.split("\\.")[1]));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void deleteFile(String group_name, String remote_filename) {
+    public static void deleteFile(String groupName, String remoteFilename) {
         try {
-            int result = storageClient1.delete_file(group_name, remote_filename);
+            int result = storageClient1.delete_file(groupName, remoteFilename);
             if (result == 0) {
                 System.out.println("文件删除成功");
             } else if (result == 2) {
@@ -95,10 +93,8 @@ public class FastDFSClient {
     }
 
     public static void main(String[] args) throws Exception {
-//        uploadFile(IOUtils.toByteArray(new FileInputStream("D:/zam.txt")), "txt");
-//        uploadFile(IOUtils.toByteArray(new FileInputStream("D:/xxx.png")), "png");
-//        downloadFile("group1", "00/00/ZGQABl8HDmaAFxtDAAAACuNwwp0879.txt");
-//        deleteFile("group1", "00/00/wKgA-F77A8aAYcFvAAKKkA2lCao166.png");
+        uploadFile("group1", "D:/SocketTool.exe");
+//        downloadFile("group1", "00/00/wKgA-F-3F7WAc5-NABKyAARnR5Q452.exe", "zam");
     }
 
 }
