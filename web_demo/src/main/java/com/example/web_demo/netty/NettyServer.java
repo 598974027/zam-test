@@ -1,13 +1,7 @@
 package com.example.web_demo.netty;
 
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.channel.AdaptiveRecvByteBufAllocator;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -40,19 +34,19 @@ public class NettyServer {
      * @return
      */
     public void start() {
-        ServerBootstrap serverBootstrap = new ServerBootstrap();
-        serverBootstrap.group(boss, worker);
-        serverBootstrap.option(ChannelOption.SO_BACKLOG, 128);
-        serverBootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
-        serverBootstrap.childOption(ChannelOption.TCP_NODELAY, true);
-        serverBootstrap.channel(NioServerSocketChannel.class).childHandler(serverChannelInitializer);
-        System.out.println("TCP服务启动完毕,port=" + this.port);
-        try {
-            ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-            channelFuture.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        ServerBootstrap serverBootstrap = new ServerBootstrap();
+//        serverBootstrap.group(boss, worker);
+//        serverBootstrap.option(ChannelOption.SO_BACKLOG, 128);
+//        serverBootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
+//        serverBootstrap.childOption(ChannelOption.TCP_NODELAY, true);
+//        serverBootstrap.channel(NioServerSocketChannel.class).childHandler(serverChannelInitializer);
+//        System.out.println("TCP服务启动完毕,port=" + this.port);
+//        try {
+//            ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
+//            channelFuture.channel().closeFuture().sync();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**

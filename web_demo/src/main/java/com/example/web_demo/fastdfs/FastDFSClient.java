@@ -93,7 +93,7 @@ public class FastDFSClient {
     }
 
     public static void main(String[] args) throws Exception {
-        uploadFile("group1", "D:/SocketTool.exe");
+//        uploadFile("group1", "D:/SocketTool.exe");
 //        downloadFile("group1", "00/00/wKgA-F-3F7WAc5-NABKyAARnR5Q452.exe", "zam");
     }
 

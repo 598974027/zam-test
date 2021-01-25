@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>高德地图</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <!--    <script src="https://webapi.amap.com/maps?v=1.4.15&key=9a53721fba38d0fcb573318450d096f8"></script>-->
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=15e7cec3b744febfbca4d9fe32679812"></script>
+    <style type="text/css">
+        html, body, #container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<script>
+    var map = new AMap.Map('container', {
+        resizeEnable: true, //是否监控地图容器尺寸变化
+        zoom: 11, //初始化地图层级
+        center: [116.397428, 39.90923] //初始化地图中心点
+    });
+</script>
+</body>
+</html>
