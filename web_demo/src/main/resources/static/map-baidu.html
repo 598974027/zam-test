@@ -20,6 +20,10 @@
     <!--测距-->
     <script type="text/javascript"
             src="js/baidu/DistanceTool_min.js"></script>
+    <!--鼠标绘制-->
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css"/>
     <style type="text/css">
         body, html, #allmap {
             width: 100%;
@@ -49,28 +53,20 @@
             width: 80px;
             padding-left: 8px;
         }
-
-        #self-btn {
-            height: 30px;
-            background: #5679ea;
-            border: 0;
-            padding: 0 10px 0 10px;
-            margin: 10px 8px 0 0;
-            cursor: pointer;
-            border-radius: 2px;
-            color: #fff;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
 <div class="info">
     <div>功能按钮:</div>
-    <input id="self-input" type="number" step="1" min="4" max="20" value="10">
-    <button id="self-btn" onclick="map.zoomIn()">放大一级</button>
-    <button id="self-btn" onclick="map.zoomOut()">缩小一级</button>
-    <button id="self-btn" onclick="setPoint()">标记点</button>
-    <button id="self-btn" onclick="removePoint()">清除点</button>
+    <!--    <input id="self-input" type="number" step="1" min="4" max="20" value="10">-->
+    <button id="self-btn-1" onclick="map.zoomIn()">放大</button>
+    <button id="self-btn-2" onclick="map.zoomOut()">缩小</button>
+    <button id="self-btn-3" onclick="setPoint()">标记点</button>
+    <button id="self-btn-4" onclick="removePoint()">清除点</button>
+    <button id="self-btn-5" onclick="startDrawing()">开始画图</button>
+    <button id="self-btn-6" onclick="stopDrawing()">停止画图</button>
+    <button id="self-btn-7" onclick="play()">播放轨迹</button>
+    <button id="self-btn-8" onclick="stop()">停止播放</button>
 </div>
 <div id="allmap"></div>
 </body>
@@ -79,7 +75,7 @@
     let map = new BMap.Map("allmap");
     //初始化地图,设置中心点坐标和地图级别
     // map.centerAndZoom(new BMap.Point(114.02919, 30.58203), 10);
-    map.centerAndZoom("武汉市", 12);
+    map.centerAndZoom("武汉市", 15);
     //开启鼠标滚轮缩放
     map.enableScrollWheelZoom(true);
 
@@ -88,7 +84,7 @@
     //比例尺
     map.addControl(new BMap.ScaleControl());
     //缩略地图
-    map.addControl(new BMap.OverviewMapControl());
+    map.addControl(new BMap.OverviewMapControl({isOpen: true}));
     //地图类型
     map.addControl(new BMap.MapTypeControl());
     //路况
@@ -140,20 +136,113 @@
     for (let i = 0; i < 10; i++) {
         markers.push(new BMap.Marker(new BMap.Point(Math.random(1, 2) * 0.02 + 114.3, Math.random(1, 2) * 0.05 + 30.50)));
     }
-    let markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
+    // let markerClusterer = new BMapLib.MarkerClusterer(map, {
+    //     markers: markers
+    // });
 
-    map.addEventListener('click', function (e) {
-        console.log('点击位置经纬度：' + e.point.lng + ',' + e.point.lat);
-        let myGeo = new BMap.Geocoder();
-        myGeo.getLocation(e.point, function (res) {
-            const addComp = res.addressComponents;
-            alert("点击位置地址：" + addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
-        })
+    //围栏
+    let styleOptions = {
+        strokeColor: "red",    //边线颜色。
+        fillColor: "red",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        strokeWeight: 3,       //边线的宽度，以像素为单位。
+        strokeOpacity: 0.8,    //边线透明度，取值范围0 - 1。
+        fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+        strokeStyle: 'solid'   //边线的样式，solid或dashed。
+    };
+    //实例化鼠标绘制工具
+    let drawingManager = new BMapLib.DrawingManager(map, {
+        isOpen: false,
+        enableDrawingTool: false,
+        /**
+         * MAP_DRAWING_MARKER 画点
+         * BMAP_DRAWING_CIRCLE 画圆
+         * BMAP_DRAWING_POLYLINE 画线
+         * BMAP_DRAWING_POLYGON 画多边形
+         * BMAP_DRAWING_RECTANGLE 画矩形
+         */
+        drawingMode: BMAP_DRAWING_CIRCLE,
+        // drawingToolOptions: {
+        //     anchor: BMAP_ANCHOR_TOP_RIGHT,
+        //     offset: new BMap.Size(5, 5),
+        //     drawingModes: [
+        //         BMAP_DRAWING_MARKER,
+        //         BMAP_DRAWING_CIRCLE,
+        //         BMAP_DRAWING_POLYLINE,
+        //         BMAP_DRAWING_POLYGON,
+        //         BMAP_DRAWING_RECTANGLE
+        //     ]
+        // },
+        polygonOptions: styleOptions
     });
+    //鼠标绘制监听事件
+    drawingManager.addEventListener('overlaycomplete', function (e) {
+        const point = new BMap.Point(e.overlay.ha[0].lng, e.overlay.ha[0].lat);
+        let radius = drawingManager._map.getDistance(centerPoint, point);
+        alert("当前半径：" + (radius / 1000).toFixed(2) + "公里")
+        centerPoint = null;
+    });
+    //圆心
+    let centerPoint = null;
+
+    //得到当前圆的圆心坐标
+    function selfMousedown(e) {
+        if (centerPoint == null) {
+            centerPoint = e.point;
+        }
+    }
+
+    //轨迹回放
+    //获取所有点的坐标
+    let points2 = [
+        new BMap.Point(114.326534, 30.536074), new BMap.Point(114.326534, 30.536974),
+        new BMap.Point(114.326534, 30.537074), new BMap.Point(114.326534, 30.537174),
+        new BMap.Point(114.316534, 30.537274), new BMap.Point(114.316534, 30.537374),
+        new BMap.Point(114.316534, 30.547474), new BMap.Point(114.316534, 30.547574),
+        new BMap.Point(114.336534, 30.547674), new BMap.Point(114.336534, 30.547774),
+        new BMap.Point(114.336534, 30.547874), new BMap.Point(114.336534, 30.547974)
+    ];
+    let marker2;
+    let centerPoint2 = 0;
+    let index = 0;
+    let timer;
+    let driving = new BMap.DrivingRoute(map);
+    driving.search(points2[0], points2[points2.length - 1]);
+    driving.setSearchCompleteCallback(function () {
+        //得到路线上所有point
+        // points2 = driving.getResults().getPlan(0).getRoute(0).getPath();
+        //中间位置
+        centerPoint2 = new BMap.Point((points2[0].lng + points2[points2.length - 1].lng) / 2, (points2[0].lat + points2[points2.length - 1].lat) / 2);
+        map.panTo(centerPoint2);
+        //连接所有点
+        map.addOverlay(new BMap.Polyline(points2, {strokeColor: "black", strokeWeight: 5, strokeOpacity: 1}));
+        //标记点
+        marker2 = new BMap.Marker(points2[points2.length - 1]);
+        marker2.setLabel(new BMap.Label("终点", {
+            offset: new BMap.Size(0, 0)
+        }));
+        map.addOverlay(marker2);
+        marker2 = new BMap.Marker(points2[0], {
+            icon: new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/Mario.png",
+                new BMap.Size(32, 70), {
+                    offset: new BMap.Size(0, -5),
+                    imageOffset: new BMap.Size(0, 0)
+                })
+        });
+        map.addOverlay(marker2);
+    });
+
+    //事件
+    // map.addEventListener('click', function (e) {
+    //     console.log('点击位置经纬度：' + e.point.lng + ',' + e.point.lat);
+    //     let myGeo = new BMap.Geocoder();
+    //     myGeo.getLocation(e.point, function (res) {
+    //         const addComp = res.addressComponents;
+    //         alert("点击位置地址：" + addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+    //     })
+    // });
     // map.addEventListener('tilesloaded', function (e) {
     //     alert('地图加载完成');
     // });
-
 
     function setPoint() {
         const myPoints = [
@@ -175,7 +264,7 @@
         }
     }
 
-    function showInfo(thisMarker, point) {
+    function showInfo(marker, point) {
         let content =
             '<ul style="margin:0 0 5px 0;padding:0.2em 0">'
             + '<li style="line-height: 26px;font-size: 15px;"><span style="width: 50px;display: inline-block;">id：</span>' + point.id + '</li>'
@@ -183,14 +272,57 @@
             + '<li style="line-height: 26px;font-size: 15px;"><span style="width: 50px;display: inline-block;">查看：</span><a href="' + point.url + '">详情</a></li>'
             + '</ul>';
         let infoWindow = new BMap.InfoWindow(content);
-        thisMarker.openInfoWindow(infoWindow);
+        marker.openInfoWindow(infoWindow);
     }
 
     function removePoint() {
         let allOverlay = map.getOverlays();
-        for (var i = 0; i < allOverlay.length; i++) {
+        for (let i = 0; i < allOverlay.length; i++) {
             map.removeOverlay(allOverlay[i]);
         }
+    }
+
+    function startDrawing() {
+        drawingManager.close();
+        drawingManager.open();
+        if (drawingManager._mask != null) {
+            drawingManager._mask.addEventListener('mousedown', selfMousedown);
+        }
+    }
+
+    function stopDrawing() {
+        drawingManager.close();
+    }
+
+    function play() {
+        if (index == 0) {
+            map.centerAndZoom(points2[0], 18);
+        }
+        let point = points2[index];
+        if (index > 0) {
+            map.addOverlay(new BMap.Polyline([points2[index - 1], point], {
+                strokeColor: "red",
+                strokeWeight: 2,
+                strokeOpacity: 2
+            }));
+        }
+        marker2.setPosition(point);
+        index++;
+        map.panTo(point);
+        if (index < points2.length) {
+            timer = window.setTimeout("play(" + index + ")", 1000);
+        } else {
+            map.panTo(point);
+        }
+    }
+
+    function stop() {
+        if (timer) {
+            window.clearTimeout(timer);
+        }
+        index = 0;
+        marker2.setPosition(points2[0]);
+        map.panTo(points2[0]);
     }
 </script>
 </html>
