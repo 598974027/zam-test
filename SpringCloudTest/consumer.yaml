@@ -11,26 +11,26 @@ spec:
       app: zam-consumer
   template:
     metadata:
-      labels: 
+      labels:
         app: zam-consumer
     spec:
       containers:
-      - name: zam-consumer
-        image: consumer:1.0-SNAPSHOT
-        ports:
-        - containerPort: 8100
+        - name: zam-consumer
+          image: consumer:1.0-SNAPSHOT
+          ports:
+            - containerPort: 8100
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: zam-consumer-service
 spec:
-  selector: 
+  selector:
     app: zam-consumer
   ports:
-  - name: "8200"
-    nodePort: 31002
-    port: 8200
-    protocol: TCP
-    targetPort: 8200
+    - name: "8200"
+      nodePort: 31002
+      port: 8200
+      protocol: TCP
+      targetPort: 8200
   type: NodePort

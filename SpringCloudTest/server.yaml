@@ -11,26 +11,26 @@ spec:
       app: zam-server
   template:
     metadata:
-      labels: 
+      labels:
         app: zam-server
     spec:
       containers:
-      - name: zam-server
-        image: server:1.0-SNAPSHOT
-        ports:
-        - containerPort: 8080
+        - name: zam-server
+          image: server:1.0-SNAPSHOT
+          ports:
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: zam-server-service
 spec:
-  selector: 
+  selector:
     app: zam-server
   ports:
-  - name: "8080"
-    nodePort: 31000
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: "8080"
+      nodePort: 31000
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   type: NodePort

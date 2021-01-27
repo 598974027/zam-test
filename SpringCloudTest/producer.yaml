@@ -11,26 +11,26 @@ spec:
       app: zam-producer
   template:
     metadata:
-      labels: 
+      labels:
         app: zam-producer
     spec:
       containers:
-      - name: zam-producer
-        image: producer:1.0-SNAPSHOT
-        ports:
-        - containerPort: 8100
+        - name: zam-producer
+          image: producer:1.0-SNAPSHOT
+          ports:
+            - containerPort: 8100
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: zam-producer-service
 spec:
-  selector: 
+  selector:
     app: zam-producer
   ports:
-  - name: "8100"
-    nodePort: 31001
-    port: 8100
-    protocol: TCP
-    targetPort: 8100
+    - name: "8100"
+      nodePort: 31001
+      port: 8100
+      protocol: TCP
+      targetPort: 8100
   type: NodePort
