@@ -1,10 +1,14 @@
 package com.example.web_demo.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 功能描述: JwtUtil
@@ -13,50 +17,90 @@ import java.util.Date;
  * @time 2020/9/17 11:04
  **/
 public class JwtUtil {
-
-    public static final String TOKEN_HEADER = "Authorization";
-
-    public static final String TOKEN_PREFIX = "Bearer ";
-
     public static final String APP_SECRET_KEY = "zam_secret";
 
-    public static final long TIME = 1000 * 60 * 60;
-
-    public static String getToken(User user) {
-        return JWT.create().withAudience(user.getId()).sign(Algorithm.HMAC256(user.getPassword()));
+    /**
+     * 初始化生成token的参数
+     *
+     * @param username
+     * @return String
+     */
+    public static String generateToken(String username) {
+        Map<String, Object> claims = new HashMap<>(1);
+        claims.put("username", username);
+        return generateToken(claims);
     }
 
-    public static String createToken(String username) {
-        return Jwts
-                .builder()
-                .setId(username) //ID
-                .setSubject(username) //主题
-                .setIssuedAt(new Date()) //签发时间
-                .setIssuer("zam") //签发者
-                .claim("username", username) //自定义属性
-                .setExpiration(new Date(System.currentTimeMillis() + TIME)) //失效时间
+    /**
+     * 生成token
+     *
+     * @param claims
+     * @return String
+     */
+    public static String generateToken(Map<String, Object> claims) {
+        LocalDateTime now = LocalDateTime.now();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject("watch") //主题
+                .setIssuer("notion") //签发者
+                .setIssuedAt(new Date(now.toInstant(ZoneOffset.of("+8")).toEpochMilli())) //签发时间
+                .setExpiration(new Date(now.plusMinutes(10).toInstant(ZoneOffset.of("+8")).toEpochMilli())) //失效时间
                 .signWith(SignatureAlgorithm.HS256, APP_SECRET_KEY) //签名算法和密钥
                 .compact();
     }
 
-    public static String getUsername(String token) {
+    /**
+     * 验证token
+     *
+     * @param token
+     * @return String
+     */
+    public static String verifyToken(String token) {
+        String result = null;
         try {
-            Claims claims = Jwts
-                    .parser()
-                    .setSigningKey(APP_SECRET_KEY)
-                    .parseClaimsJws(token)
-                    .getBody();
-            return claims.get("username").toString();
-        } catch (ExpiredJwtException e) {
-            System.out.println("*****token过期*****");
-            return null;
-        } catch (SignatureException e) {
-            System.out.println("*****token不正确*****");
-            return null;
-        } catch (MalformedJwtException e) {
-            System.out.println("*****token格式不对*****");
-            return null;
+            Claims claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
+            result = claims.get("username").toString();
+        } catch (Exception e) {
         }
+        return result;
+    }
+
+    /**
+     * 判断token能否刷新
+     *
+     * @param token
+     * @return Boolean
+     */
+    public static Boolean canTokenRefreshed(String token) {
+        Claims claims;
+        try {
+            claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
+            final Date exp = claims.getExpiration();
+            LocalDateTime time = exp.toInstant().atOffset(ZoneOffset.of("+8")).toLocalDateTime();
+            if (LocalDateTime.now().plusMinutes(3).isAfter(time)) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
+    /**
+     * 刷新token
+     *
+     * @param token
+     * @return String
+     */
+    public static String refreshToken(String token) {
+        String refreshedToken;
+        try {
+            final Claims claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
+            refreshedToken = generateToken(claims);
+        } catch (Exception e) {
+            refreshedToken = null;
+        }
+        return refreshedToken;
     }
 
 }
