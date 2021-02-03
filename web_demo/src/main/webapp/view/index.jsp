@@ -19,8 +19,8 @@
 <h1>${message}</h1>
 
 <%
-    System.out.println("This is printed by System.out.println.");
-    out.println("This is printed by out.println.");
+    System.out.println("This is printed by System.out.println");
+    out.println("This is printed by out.println");
 %>
 
 </body>

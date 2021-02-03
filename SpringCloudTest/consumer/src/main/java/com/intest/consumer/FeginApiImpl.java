@@ -3,7 +3,7 @@ package com.intest.consumer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FeginFailBackImpl implements FeginApi {
+public class FeginApiImpl implements FeginApi {
 
     /**
      * fegin负载均衡调用 容错处理方法

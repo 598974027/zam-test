@@ -38,7 +38,7 @@
 //        /**
 //         * 1.token验证、续约操作
 //         * 2.查用户
-//         * 3.赋予权限
+//         * 3.赋予接口权限
 //         */
 //        String authHeader = request.getHeader(tokenHeader);
 //        if (authHeader != null && authHeader.startsWith(tokenHead)) {
@@ -46,12 +46,17 @@
 //            String username = JwtUtil.verifyToken(token);
 //            if (username != null) {
 //                /**
-//                 * 查用户 赋予权限
+//                 * 查用户 赋予接口权限
 //                 */
 //                SysUser sysUser = new SysUser();
 //                sysUser.setUsername(username);
 //                List<GrantedAuthority> authorities = new ArrayList<>();
-//                authorities.add(new SimpleGrantedAuthority("select"));
+//                if ("admin".equals(username)) {
+//                    authorities.add(new SimpleGrantedAuthority("insert"));
+//                    authorities.add(new SimpleGrantedAuthority("select"));
+//                } else if ("user".equals(username)) {
+//                    authorities.add(new SimpleGrantedAuthority("select"));
+//                }
 //                sysUser.setAuthorities(authorities);
 //                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(sysUser, null, sysUser.getAuthorities());
 //                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -60,7 +65,7 @@
 //                 * 判断是否刷新token
 //                 */
 //                if (JwtUtil.canTokenRefreshed(token)) {
-//                    logger.error("token刷新了");
+//                    logger.info("token刷新了");
 //                    response.setHeader("access_token", JwtUtil.refreshToken(token));
 //                } else {
 //                    response.setHeader("access_token", token);

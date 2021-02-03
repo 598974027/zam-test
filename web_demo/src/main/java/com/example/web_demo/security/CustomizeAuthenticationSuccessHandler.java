@@ -3,6 +3,7 @@
 //import com.alibaba.fastjson.JSON;
 //import com.example.web_demo.jwt.JwtUtil;
 //import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 //import org.springframework.stereotype.Component;
 //
@@ -26,9 +27,9 @@
 //         * 1.返回token
 //         * 2.返回菜单树（包括功能按钮等）
 //         */
-//        SysUser sysUser = (SysUser) authentication.getPrincipal();
+//        String username = ((UserDetails) authentication.getPrincipal()).getUsername();
 //        httpServletResponse.setContentType("text/json;charset=utf-8");
-//        httpServletResponse.setHeader("access_token", JwtUtil.generateToken(sysUser.getUsername()));
+//        httpServletResponse.setHeader("access_token", JwtUtil.generateToken(username));
 //        httpServletResponse.getWriter().write(JSON.toJSONString("登录成功"));
 //    }
 //

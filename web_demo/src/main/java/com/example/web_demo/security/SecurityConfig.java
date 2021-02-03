@@ -20,15 +20,13 @@
 ///**
 // * 功能描述: spring security配置
 // *
-// * @author zhangam
+// * @author zhangaomin
 // * @time
 // * @see
 // **/
 //@Configuration
 //@EnableWebSecurity
 //public class SecurityConfig extends WebSecurityConfigurerAdapter {
-////    @Autowired
-////    private PermissionMapper permissionMapper;
 //
 //    @Autowired
 //    private MyUserDetailsService myUserDetailsService;
@@ -77,9 +75,9 @@
 //         * 内存用户信息匹配
 //         */
 ////        auth.inMemoryAuthentication()
-////                .withUser("admin").password(passwordEncoder().encode("admin")).roles("insert", "select")
+////                .withUser("admin").password(passwordEncoder().encode("admin"))
 ////                .and()
-////                .withUser("user").password(passwordEncoder().encode("user")).roles("select");
+////                .withUser("user").password(passwordEncoder().encode("user"));
 //    }
 //
 //    @Override
