@@ -14,7 +14,6 @@ import java.util.concurrent.Semaphore;
  **/
 public class ConcurrentTest {
 
-
     public static void main(String[] args) throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(2);
         new Thread(new Runnable() {

@@ -38,12 +38,12 @@ public class FastDFSClient {
             ClientGlobal.setG_secret_key("FastDFS1234567890");
             ClientGlobal.setG_tracker_http_port(80);
             InetSocketAddress[] tracker_servers = new InetSocketAddress[1];
-            tracker_servers[0] = new InetSocketAddress("139.159.185.20", 22122);
+            tracker_servers[0] = new InetSocketAddress("121.196.179.74", 22122);
             TrackerGroup trackerGroup = new TrackerGroup(tracker_servers);
             ClientGlobal.setG_tracker_group(trackerGroup);
             trackerClient = new TrackerClient(trackerGroup);
             trackerServer = trackerClient.getConnection();
-            storageServer = new StorageServer("139.159.185.20", 23000, 0);
+            storageServer = new StorageServer("121.196.179.74", 23000, 0);
             storageClient1 = new StorageClient1(trackerServer, storageServer);
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,7 +93,7 @@ public class FastDFSClient {
     }
 
     public static void main(String[] args) throws Exception {
-//        uploadFile("group1", "D:/SocketTool.exe");
+        uploadFile("group1", "D:/fastdfs/system_patch_2.bin");
 //        downloadFile("group1", "00/00/wKgA-F-3F7WAc5-NABKyAARnR5Q452.exe", "zam");
     }
 
