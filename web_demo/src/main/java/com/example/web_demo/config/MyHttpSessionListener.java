@@ -15,13 +15,13 @@ public class MyHttpSessionListener implements HttpSessionListener {
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
-        System.out.println("监听HTTP会话Session对象+1");
+//        System.out.println("监听HTTP会话Session对象+1");
         online++;
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        System.out.println("监听HTTP会话Session对象-1");
+//        System.out.println("监听HTTP会话Session对象-1");
         online--;
     }
 

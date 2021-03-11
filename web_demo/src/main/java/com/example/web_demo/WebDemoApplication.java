@@ -1,7 +1,5 @@
 package com.example.web_demo;
 
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -11,8 +9,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import javax.annotation.PostConstruct;
 import java.net.InetAddress;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
@@ -38,6 +37,25 @@ public class WebDemoApplication {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + ":");
+                    if (CountingUtil.getInstance().getOneCounting("send") != null) {
+                        sb.append(CountingUtil.getInstance().getOneCounting("send").getInfo() + ";");
+                    }
+                    System.out.println(sb.toString());
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
 
     }
 
