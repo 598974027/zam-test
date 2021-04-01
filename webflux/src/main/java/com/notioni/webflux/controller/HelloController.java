@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
  * @time 2020/8/20 9:14
  **/
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/hello/")
 @Slf4j
 public class HelloController {
 
@@ -31,7 +31,7 @@ public class HelloController {
 
     @GetMapping("flux2")
     public Flux<Integer> flux2() {
-        return Flux.range(1, 5).map(val -> val + 2).delayElements(Duration.ofSeconds(2));
+        return Flux.range(1, 5).map(val -> val + 2).delayElements(Duration.ofSeconds(1));
     }
 
     @GetMapping("flux3")
@@ -77,12 +77,12 @@ public class HelloController {
 
     @GetMapping("mono")
     public Mono<String> mono() {
-        return Mono.just("hello webflux");
+        return Mono.just("just");
     }
 
     @GetMapping("mono2")
     public Mono<Object> mono2() {
-        return Mono.justOrEmpty(null);
+        return Mono.justOrEmpty("justOrEmpty");
     }
 
     @GetMapping("mono3")

@@ -20,7 +20,6 @@ public class StudentService {
 
     public Mono<Student> findStudentByCode(String code) {
         return studentRepository.findByCodeAndActiveTrue(code)
-                //为空抛Mono.error
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("invalid student code: " + code)));
     }
 
@@ -34,7 +33,6 @@ public class StudentService {
             }
             return studentRepository.save(student);
         } else {
-            //参数异常抛Mono.error
             return Mono.error(new IllegalArgumentException("invalid parameters student update profile"));
         }
     }
