@@ -1,17 +1,24 @@
-//package com.example.web_demo.config;
-//
-///**
-// * 功能描述: 拦截器
-// *
-// * @author zhangam
-// * @time 2019/5/26 13:41
-// * @see
-// **/
-//@Component
-//public class MyInterceptor implements HandlerInterceptor {
-//
-//    @Override
-//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
+package com.example.web_demo.config;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * 功能描述: 拦截器
+ *
+ * @author zhangam
+ * @time 2019/5/26 13:41
+ * @see
+ **/
+@Component
+public class MyInterceptor implements HandlerInterceptor {
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
 //        System.out.println("拦截器逻辑操作。。。" + request.getRequestURL().toString());
 //        //如果不是映射到方法直接通过
 //        if (!(object instanceof HandlerMethod)) {
@@ -56,7 +63,23 @@
 //                return true;
 //            }
 //        }
-//        return true;
-//    }
-//
-//}
+        System.out.println("preHandle");
+        if (request.getParameterMap().containsKey("yj")) {
+            response.setContentType("application/json;charset=utf-8");
+            response.getWriter().write("yj");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println("postHandle");
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        System.out.println("afterCompletion");
+    }
+}

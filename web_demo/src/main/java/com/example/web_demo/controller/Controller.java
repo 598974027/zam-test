@@ -6,8 +6,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/con")
+@RequestMapping("/zam")
 public class Controller {
+
+    @RequestMapping(value = "/tt", method = RequestMethod.GET)
+    public String tt() {
+        return "test";
+    }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test() throws InterruptedException {

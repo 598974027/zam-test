@@ -10,8 +10,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.net.InetAddress;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Properties;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
@@ -41,19 +39,19 @@ public class WebDemoApplication {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + ":");
-                    if (CountingUtil.getInstance().getOneCounting("send") != null) {
-                        sb.append(CountingUtil.getInstance().getOneCounting("send").getInfo() + ";");
-                    }
-                    System.out.println(sb.toString());
-                    try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+//                while (true) {
+//                    StringBuilder sb = new StringBuilder();
+//                    sb.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + ":");
+//                    if (CountingUtil.getInstance().getOneCounting("send") != null) {
+//                        sb.append(CountingUtil.getInstance().getOneCounting("send").getInfo() + ";");
+//                    }
+//                    System.out.println(sb.toString());
+//                    try {
+//                        Thread.sleep(10000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             }
         }).start();
 
