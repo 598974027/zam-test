@@ -58,7 +58,7 @@ public class JwtUtil {
     public static String verifyToken(String token) {
         String result = null;
         try {
-            Claims claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
+            Claims claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJwt(token).getBody();
             result = claims.get("username").toString();
         } catch (Exception e) {
         }
@@ -74,7 +74,7 @@ public class JwtUtil {
     public static Boolean canTokenRefreshed(String token) {
         Claims claims;
         try {
-            claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
+            claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJwt(token).getBody();
             final Date exp = claims.getExpiration();
             LocalDateTime time = exp.toInstant().atOffset(ZoneOffset.of("+8")).toLocalDateTime();
             if (LocalDateTime.now().plusMinutes(3).isAfter(time)) {
@@ -95,7 +95,7 @@ public class JwtUtil {
     public static String refreshToken(String token) {
         String refreshedToken;
         try {
-            final Claims claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
+            final Claims claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJwt(token).getBody();
             refreshedToken = generateToken(claims);
         } catch (Exception e) {
             refreshedToken = null;
