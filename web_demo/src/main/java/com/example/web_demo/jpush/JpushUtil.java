@@ -18,8 +18,9 @@ import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import io.netty.handler.codec.http.HttpMethod;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.net.URI;
@@ -30,11 +31,11 @@ import java.util.*;
  * 功能描述: JpushUtils
  *
  * @author zhangaomin
- * @time 2021/1/26 17:19
+ * @time 2021/5/14 11:19
  **/
-@Service
-@Slf4j
+@Component
 public class JpushUtil {
+    private final Logger logger = LoggerFactory.getLogger(JpushUtil.class);
 
     @Resource
     private JpushConfig jpushConfig;
@@ -108,9 +109,9 @@ public class JpushUtil {
                 @Override
                 public void onSucceed(ResponseWrapper responseWrapper) {
                     if (200 == responseWrapper.responseCode) {
-                        log.info("极光推送成功，返回结果: " + responseWrapper.responseContent);
+                        logger.info("极光推送成功，返回结果: " + responseWrapper.responseContent);
                     } else {
-                        log.info("极光推送失败，返回结果: " + responseWrapper.responseContent);
+                        logger.info("极光推送失败，返回结果: " + responseWrapper.responseContent);
                     }
                 }
             });
@@ -129,7 +130,7 @@ public class JpushUtil {
      * @param tagsToAdd      添加设备的tag属性
      * @param tagsToRemove   移除设备的tag属性
      */
-    private void UpdateDeviceTagAlias(String registrationId, String alias, Set<String> tagsToAdd, Set<String> tagsToRemove) throws APIConnectionException, APIRequestException {
+    private void updateDeviceTagAlias(String registrationId, String alias, Set<String> tagsToAdd, Set<String> tagsToRemove) throws APIConnectionException, APIRequestException {
         JPushClient jpushClient = new JPushClient(jpushConfig.getMasterSecret(), jpushConfig.getAppkey());
         jpushClient.updateDeviceTagAlias(registrationId, alias, tagsToAdd, tagsToRemove);
     }
@@ -147,13 +148,16 @@ public class JpushUtil {
         if (extrasMap == null || extrasMap.isEmpty()) {
             extrasMap = new HashMap();
         }
+        String[] newAlias = removeArrayEmptyElement(alias);
         return PushPayload.newBuilder()
-                //设置推送平台为安卓
-                .setPlatform(Platform.android())
+                //设置推送平台
+                .setPlatform(Platform.android_ios())
                 //设置标签
-                .setAudience(Audience.alias(alias))
+                .setAudience(Audience.alias(newAlias))
                 //设置通知
-                .setNotification(Notification.newBuilder().setAlert(content).addPlatformNotification(AndroidNotification.newBuilder().setTitle(title).addExtras(extrasMap).build()).build())
+                .setNotification(Notification.newBuilder().setAlert(content)
+                        .addPlatformNotification(AndroidNotification.newBuilder().setTitle(title).addExtras(extrasMap).build())
+                        .addPlatformNotification(IosNotification.newBuilder().incrBadge(1).addExtras(extrasMap).build()).build())
                 //设置选项
 //            .setOptions(Options.newBuilder().setApnsProduction(false).setTimeToLive(8600).setBigPushDuration(1).build())
                 //设置通知内容
@@ -162,29 +166,7 @@ public class JpushUtil {
     }
 
     /**
-     * 构建Android和IOS的推送消息对象
-     *
-     * @param title     推送消息标题
-     * @param content   推送消息内容
-     * @param extrasMap 推送额外信息
-     * @param alias     推送的目标别名
-     * @return
-     */
-    private PushPayload buildPushPayload2(String title, String content, Map<String, String> extrasMap, String... alias) {
-        if (extrasMap == null || extrasMap.isEmpty()) {
-            extrasMap = new HashMap();
-        }
-        String[] newAlias = removeArrayEmptyElement(alias);
-        return PushPayload.newBuilder().setPlatform(Platform.android_ios())
-                .setAudience((null == newAlias || newAlias.length == 0) ? Audience.all() : Audience.alias(alias))
-                .setNotification(Notification.newBuilder().setAlert(content)
-                        .addPlatformNotification(AndroidNotification.newBuilder().setTitle(title).addExtras(extrasMap).build())
-                        .addPlatformNotification(IosNotification.newBuilder().incrBadge(1).addExtras(extrasMap).build()).build())
-                .build();
-    }
-
-    /**
-     * 构建Android和IOS的自定义消息的推送消息对象
+     * 根据标签推送相应的消息
      *
      * @param title     推送消息标题
      * @param content   推送消息内容
@@ -198,7 +180,7 @@ public class JpushUtil {
         }
         String[] newAlias = removeArrayEmptyElement(alias);
         return PushPayload.newBuilder().setPlatform(Platform.android_ios())
-                .setAudience((null == newAlias || newAlias.length == 0) ? Audience.all() : Audience.alias(alias))
+                .setAudience((null == newAlias || newAlias.length == 0) ? Audience.all() : Audience.alias(newAlias))
                 .setNotification(Notification.newBuilder().setAlert(content)
                         .addPlatformNotification(AndroidNotification.newBuilder().setTitle(title).addExtras(extrasMap).build())
                         .addPlatformNotification(IosNotification.newBuilder().incrBadge(1).addExtras(extrasMap).build()).build())

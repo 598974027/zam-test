@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -24,7 +23,7 @@ public class JpushController {
     @Autowired
     private JpushUtil jpushUtils;
 
-    @GetMapping(value = "/login")
+    @GetMapping(value = "/send")
     public String send() {
         String title = "测试标题";
         String content = "得不到的永远在骚动，被偏爱的都有恃无恐！";
@@ -39,10 +38,6 @@ public class JpushController {
             System.out.println(pushResult.getResponseCode());
 //            AliasDeviceListResult aliasDeviceListResult = jpushUtils.getUser("U2");
 //            System.out.println(aliasDeviceListResult.registration_ids.size());
-            HashSet hashSet = new HashSet();
-            hashSet.add("zam");
-            hashSet.add("测试");
-//            jpushUtils.UpdateDeviceTagAlias("140fe1da9ec6c5fc7af", null, hashSet, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
