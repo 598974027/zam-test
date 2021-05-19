@@ -1,8 +1,6 @@
 package com.example.web_demo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -39,14 +37,14 @@ public class MyConfig implements WebMvcConfigurer {
 //        return listenerBean;
 //    }
 
-    @Bean
-    public FilterRegistrationBean addFilter() {
-        FilterRegistrationBean filterBean = new FilterRegistrationBean();
-        filterBean.setFilter(new MyFilter1());
-        filterBean.addUrlPatterns("/zam/*");//拦截路径
-        filterBean.setOrder(1000);//设置该过滤器的优先级，数字越小，优先级越高
-        return filterBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean addFilter() {
+//        FilterRegistrationBean filterBean = new FilterRegistrationBean();
+//        filterBean.setFilter(new MyFilter1());
+//        filterBean.addUrlPatterns("/zam/*");//拦截路径
+//        filterBean.setOrder(1000);//设置该过滤器的优先级，数字越小，优先级越高
+//        return filterBean;
+//    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

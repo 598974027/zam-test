@@ -1,10 +1,9 @@
 package com.example.web_demo.config;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,8 +15,8 @@ import java.io.IOException;
  * @time 2019/5/26 13:42
  * @see
  **/
-@Component
-@WebFilter(filterName = "myFilter3", urlPatterns = "/zam/*")
+//@Component
+//@WebFilter(filterName = "myFilter3", urlPatterns = "/zam/*")
 public class MyFilter3 extends OncePerRequestFilter {
 
     @Override
