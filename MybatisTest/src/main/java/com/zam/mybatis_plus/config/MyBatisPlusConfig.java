@@ -12,12 +12,6 @@ import org.springframework.context.annotation.Profile;
 
 import java.util.Properties;
 
-/**
- * 功能描述: MyBatisPlusConfig
- *
- * @author zhangaomin
- * @time 2020/9/24 18:55
- **/
 @Configuration
 public class MyBatisPlusConfig {
     private final static Logger logger = LoggerFactory.getLogger(MyBatisPlusConfig.class);

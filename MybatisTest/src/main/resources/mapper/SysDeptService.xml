@@ -14,17 +14,19 @@
     </resultMap>
 
     <sql id="BaseColumnList">
-        DBCID, MD5CODE, FILENAME, FULLDBCNAME, CREATETIME, VARIABLESCOUNT
+        DBCID
+        , MD5CODE, FILENAME, FULLDBCNAME, CREATETIME, VARIABLESCOUNT
 -- 少的属性结果会为null
 --      DBCID, MD5CODE, FILENAME, FULLDBCNAME, VARIABLESCOUNT
     </sql>
 
     <select id="selectFinishedDbcRecord" resultType="java.lang.String">
         SELECT MD5CODE
-        FROM incom_dbcmd5record IDC,incom_dbcvariables IDV
+        FROM incom_dbcmd5record IDC,
+             incom_dbcvariables IDV
         WHERE IDV.dbcid = IDC.dbcid
-        GROUP BY MD5CODE,VARIABLESCOUNT
-        HAVING SUM(IDV.serial)= ((1+variablescount)*variablescount/2)
+        GROUP BY MD5CODE, VARIABLESCOUNT
+        HAVING SUM(IDV.serial) = ((1 + variablescount) * variablescount / 2)
     </select>
 
     <select id="selectByMd5" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -36,15 +38,21 @@
 
     <select id="selectByMd52" parameterType="java.lang.String"
             resultType="com.zam.mybatis2.entity.DbcMd5RecordEntity">
-        SELECT
-        DBCID, MD5CODE md5, FILENAME, FULLDBCNAME, CREATETIME, VARIABLESCOUNT
+        SELECT DBCID,
+               MD5CODE md5,
+               FILENAME,
+               FULLDBCNAME,
+               CREATETIME,
+               VARIABLESCOUNT
         FROM incom_dbcmd5record
         WHERE MD5CODE = #{md5,jdbcType=VARCHAR}
     </select>
 
     <select id="selectByMd53" parameterType="java.lang.String"
             resultType="com.zam.mybatis2.entity.DbcMd5RecordEntity">
-        SELECT * FROM incom_dbcmd5record WHERE MD5CODE LIKE "%${value}%"
+        SELECT *
+        FROM incom_dbcmd5record
+        WHERE MD5CODE LIKE "%${value}%"
     </select>
 
 </mapper>

@@ -1,7 +1,7 @@
 package com.zam.mybatis2.service;
 
-import com.zam.mybatis2.dao.db1.TerminalMapper1;
 import com.zam.mybatis2.dao.db1.DbcMd5RecordMapper;
+import com.zam.mybatis2.dao.db1.TerminalMapper1;
 import com.zam.mybatis2.dao.db2.TerminalMapper2;
 import com.zam.mybatis2.entity.DbcMd5RecordEntity;
 import com.zam.mybatis2.entity.DbcUsedRecord;

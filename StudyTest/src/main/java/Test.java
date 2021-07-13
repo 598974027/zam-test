@@ -1,7 +1,5 @@
 import util.ByteUtil;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,26 +11,32 @@ import java.util.List;
  **/
 public class Test {
     public static void main(String[] args) throws Exception {
-        String srcUrl = "C:\\Users\\ZAM\\Desktop\\zamzam.jpg";
+
+//        String str = "SEUCalvin";
+        String str1 = new String("SEU") + new String("Calvin");
+        System.out.println(str1.intern() == str1);
+        System.out.println(str1 == "SEUCalvin");
+
+//        String srcUrl = "C:\\Users\\ZAM\\Desktop\\zamzam.jpg";
 //        String srcUrl = "C:\\Users\\ZAM\\Desktop\\voice.amr";
 
-        FileInputStream fis = new FileInputStream(srcUrl);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[65536];
-        int count = 0;
-        while ((count = fis.read(buffer)) >= 0) {
-            byteArrayOutputStream.write(buffer, 0, count);
-        }
-        String data = ByteUtil.bytestoHexString(byteArrayOutputStream.toByteArray());
+//        FileInputStream fis = new FileInputStream(srcUrl);
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        byte[] buffer = new byte[65536];
+//        int count = 0;
+//        while ((count = fis.read(buffer)) >= 0) {
+//            byteArrayOutputStream.write(buffer, 0, count);
+//        }
+//        String data = ByteUtil.bytestoHexString(byteArrayOutputStream.toByteArray());
 //        System.out.println(data);
-        int length = data.length() % 2000 == 0 ? data.length() / 2000 : data.length() / 2000 + 1;
-        for (int i = 1; i <= length; i++) {
-            if (i == length) {
-                System.out.println(i + " " + data.substring(2000 * (i - 1)));
-            } else {
-                System.out.println(i + " " + data.substring(2000 * (i - 1), 2000 * i));
-            }
-        }
+//        int length = data.length() % 2000 == 0 ? data.length() / 2000 : data.length() / 2000 + 1;
+//        for (int i = 1; i <= length; i++) {
+//            if (i == length) {
+//                System.out.println(i + " " + data.substring(2000 * (i - 1)));
+//            } else {
+//                System.out.println(i + " " + data.substring(2000 * (i - 1), 2000 * i));
+//            }
+//        }
 //        System.out.println(new String(byteArrayOutputStream.toByteArray()));
 //        byte[] bytes = FileUtils.readFileToByteArray(new File(srcUrl));
 
@@ -56,6 +60,9 @@ public class Test {
 
 //        System.out.println(new String(ByteUtil.hexStringToBytes("2A")));
 //        System.out.println(new String(ByteUtil.hexStringToBytes("2C")));
+
+//        String a = "ffd8ffe900040001ffdb0043000806060906090e08080e110d0b0d111512111112151c17171717171c110c0c0c0c0c0c110c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0cffdb0043010909090b0a0b120b0b12140e0e0e14140e0e0e0e14110c0c0c0c0c11110c0c0c0c0c0c110c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0cffc4001f0000010501010101010100000000000000000102030405060708090a0bffc400b5100002010303020403050504040000017d01020300041105122131410613516107227114328191a1082342b1c11552d1f02433627282090a161718191a25262728292a3435363738393a434445464748494a535455565758595a636465666768696a737475767778797a838485868788898a92939495969798999aa2a3a4a5a6a7a8a9aab2b3b4b5b6b7b8b9bac2c3c4c5c6c7c8c9cad2d3d4d5d6d7d8d9dae1e2e3e4e5e6e7e8e9eaf1f2f3f4f5f6f7f8f9faffc4001f0100030101010101010101010000000000000102030405060708090a0bffc400b51100020102040403040705040400010277000102031104052131061241510761711322328108144291a1b1c109233352f0156272d10a162434e125f11718191a262728292a35363738393a434445464748494a535455565758595a636465666768696a737475767778797a82838485868788898a92939495969798999aa2a3a4a5a6a7a8a9aab2b3b4b5b6b7b8b9bac2c3c4c5c6c7c8c9cad2d3d4d5d6d7d8d9dae2e3e4e5e6e7e8e9eaf2f3f4f5f6f7f8f9faffc000110800f000f003012200021101031101ffda000c03010002110311003f00f06ce6908c52d049cd002e71cd20a5cf7a5ebcd0019cf228f6cd27b529e47340094a4668a00ed4001c7e3403eb411de940ef400a4d27d6971cd21e78a0028c646297a521e28017ad20c8e2807bd04500452f5a8ea596a3a004a28a280173452514001a52734868a005cf14e27229bd29738e2800c1c5253b38e9480639a00914f069afc0142b63eb43641c1eb400e1cf4a00c75a5a2800c638a0f4e29483499a000503bd28ebd2947b50020c8a51cd2679a51eb4007b50383c1a09c75a3bd001934a07ad039a2800c67ad079a2908c5001ed4519a314008f8c1aae7daac32e6a0618a004a28eb450014668c5140075a5a4a280169c05341a5a00775cd2632314e148dd6801c9cd35ba9cd3d78fa533eb400eebd29738e949de9dda8010f14b49cd1ed400a73d6968348067ad00069473c503de8c01cd000783c7f9ff000a5fa51902838ef4007d68f514b8a314009d68268f6a314000a29738a4a000fa8aaec39e6ac1a864140118a5a293da800a28c514007d28a28a00514a29b4a0d003c35296cd47b8d28eb400e273c8a43c9e68c51d6802403f2a0fb528f4c518a00338eb47069075a71e28001c500d18f5a01a00075a08a5eb464f5a00290f228eb4b9cd001f4a53cd252f06800a4c52e3341a003a1a0f0283cf5a2801054722f15213de9adc8e6802bd2f5a0f5a4a00296928cd001f4a5a4a51ef4000a319a28c50025281499a51eb400ecd040a43edd6949c8a00941e78a3e9463d68e45002e73cd18cd1d681d7140052e39a3ad18c74a00281934514001a51c537a71da9c28013da94f34518a0030697ad21f4a0f34001141e941f5a39a004e94d6e4669e39a438a00acc3068c539c734ca0028c51450014a0d251400a68eb475a5a006914529149400f1cf4a319c1a45a750049ed9a318e283c5001eb400b40c13914714119a00297ad0283400529f6a40281400a68fad19a2800c5147d68ce28014f1451462800c6290f02979a4cd0027d683eb4a691bda8021907151d4ce38a8ba5002514b9a41400b49474a339a005cd2e6901a5fad0021a414bd692801c3fcff4a775e69829fd39a009281467fcff00f5a8ce78a0001a7648eb4dc03cd3ba50014138a011463d280145274a00a5a0005028fa51400bd2900e79a41cf5a7500149f5a5a3140066909a534601a004cd213814bc521e68023619a84d586e6a03c1a004a5a4cfa51400519a281cd002e314525381a004c66929c7d290f140094ee69b8a764d004b9f4a700293da9680129c0e78a41ed45002f5a0506901e73400bd28ebc1a281400019e2947239a28e9400629692968012940a414b40051f5a0518a003ad34f4cf7a534500309ed50b0c71531eb51c828023a28a2800a314518a00514bc53453b39a004341a5cd21a004a5349450058c9a51c7149fe7ff00d746280154519a0d028017a0a4193cd2d033400b9a07bd277cd1400528e293b52e6800e879a33474a28003c9a339a09a5a0041475a06697a500275e28c76a08a09a0069eb9a8d867935213cd3585004348683d68a000d19a28140052d20a51400b475e28269718a006e314838a561ce6928027c1a5cf734839e869680149cd1c9a33e9462801473c8a28c628a0008a283cd18a0028cf34022807228017341e29334bf5a00297ad275a33400a290d1d68a0028e941f5a41cf3400d6f6a3a8cd29e781482802171cd21e29d20e734ca005a422968c5002528a4a073400b4bed4527534001e7f0a4a77418a6d004e39a53c9e29294714000a5ce6901cd18cf1400bd7a500d00714039a0051451d3a518cf140001da94518a4a005149de8a3f0a0051ef480638a07b528340001460d203e94b9a002909a5a4c50034f146706948a6f4340092f22a2e9c54cddea1c6280107145029680128e940f7a5cd001d6969052d00045369d484628026eb4628e00a318e7d6801714bfe7ff00ad4da5cd0028347d68fad1c50019ef4b9a4f6a5cfa5001cd19c73494bd6800a31451f4a00318e6940a43ef499e79a00767b519a00a4cf7a005c76a4cf6a0f1466801a79a3af5a1a8a00422a13d6a7ed50b75a0068a28cd06800c514518a00502947a5369ddb9a005c507045038eb4849a00948c8c500d2629719e2800340a5e87148050029a51cf069bde9738a0051499f5a5140e68002334b4828cfad002d02908a33400bd68a43c528a0033d851f4a0fad079a0007ad07a51ef47d2801a4e6803d683c5250029eb51c83152638a6b8e39a008b1411eb46292800a28a2800a7649a6f4a703e9400ab484741452f26801c2940340a07068017eb47b527ae6940e2800e00cd2e73d69bd78a3dc500387b528a4c679a5ef400633d28c628e9d6826800cd038a01a3a73fe7eb4001c8a40714b45002e690714720f340a005f61484504e391499a0053eb4de71fe7fcf14631c526ec74a007673d690fad2f4a6b5004478a4a7375a69a002814514000a5149d2941a005a5069b9a53c0c5003c74a073403cfb52e3140074e940e28c76a05002e7d68fd281c9a43400b9cd2f34d14e0c4f140075e94640a3d851d2800ea682694114d27fcff0085002e7033475148dcf028c718a005cff9ff000a51cf34dc719a073400e1c9a4ebc50683c7228010f5e69071cd19cd009a0053efcd2134b9f4a43eb4011b5369ef4c231400b4940a0d00140a28a0070e7a504d2645045007ffd90000000000";
+//        FileUtils.writeByteArrayToFile(new File("C:\\Users\\ZAM\\Desktop\\qazwsx.jpg"), ByteUtil.hexStringToBytes(a));
     }
 
     public static byte[] send(byte[] repByte) {
@@ -120,5 +127,45 @@ public class Test {
             }
         }
         return ByteUtil.listToArray(newByte);
+    }
+
+    public static String stringToUnicode(String str) {
+        char[] utfBytes = str.toCharArray();
+        final StringBuilder buffer = new StringBuilder();
+        for (int byteIndex = 0; byteIndex < utfBytes.length; byteIndex++) {
+            String hexB = Integer.toHexString(utfBytes[byteIndex]);
+            if (hexB.length() <= 2) {
+                hexB = "00" + hexB;
+            }
+            buffer.append("\\u" + hexB);
+        }
+        return buffer.toString();
+    }
+
+    public static String unicodeToString(String str) {
+        final StringBuilder buffer = new StringBuilder();
+        if (str.indexOf("\\u") < 0) {
+            for (int i = 0; i < str.length(); i = i + 4) {
+                String charStr = str.substring(i, i + 4);
+                char letter = (char) Integer.parseInt(charStr, 16);
+                buffer.append(new Character(letter).toString());
+            }
+        } else {
+            int start = 0;
+            int end = 0;
+            while (start > -1) {
+                end = str.indexOf("\\u", start + 2);
+                String charStr = "";
+                if (end == -1) {
+                    charStr = str.substring(start + 2, str.length());
+                } else {
+                    charStr = str.substring(start + 2, end);
+                }
+                char letter = (char) Integer.parseInt(charStr, 16);
+                buffer.append(new Character(letter).toString());
+                start = end;
+            }
+        }
+        return buffer.toString();
     }
 }
