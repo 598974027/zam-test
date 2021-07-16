@@ -25,7 +25,19 @@ public class TcpServer {
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
 
     public static void main(String[] args) throws InterruptedException {
-        new TcpServer().start(80);
+        TcpServer tcpServer = new TcpServer();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                tcpServer.stop();
+            }
+        }).start();
+        tcpServer.start(1234);
     }
 
     public void start(int port) throws InterruptedException {
@@ -46,24 +58,21 @@ public class TcpServer {
             bootstrap.childOption(ChannelOption.SO_REUSEADDR, true);
             bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
             bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
-//        bootstrap.bind(port).addListener(future -> {
-//            if (future.isSuccess()) {
-//                System.out.println("TCP服务端启动成功, port =" + port);
-//            } else {
-//                System.out.println("TCP服务端启动失败" + future.cause());
-//                System.exit(0);
-//            }
-//        });
+//            bootstrap.bind(port).addListener(future -> {
+//                if (future.isSuccess()) {
+//                    System.out.println("TCP服务端启动成功, port =" + port);
+//                } else {
+//                    System.out.println("TCP服务端启动失败" + future.cause());
+//                    System.exit(0);
+//                }
+//            });
             ChannelFuture f = bootstrap.bind(port).sync();
             System.out.println("TCP服务端启动成功, port =" + port);
-            f.channel().closeFuture().sync();
+//            f.channel().closeFuture().sync();//阻塞当前进程
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("TCP服务端启动失败");
             System.exit(0);
-        } finally {
-            bossGroup.shutdownGracefully().sync();
-            workerGroup.shutdownGracefully().sync();
         }
     }
 
@@ -75,10 +84,10 @@ public class TcpServer {
             if (workerGroup != null) {
                 workerGroup.shutdownGracefully().sync();
             }
-            System.out.println("北汽TCP服务已经停止");
+            System.out.println("TCP服务端已经停止");
         } catch (InterruptedException e) {
             e.printStackTrace();
-            System.out.println("北汽TCP服务停止异常");
+            System.out.println("TCP服务端停止异常");
         }
     }
 
