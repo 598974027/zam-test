@@ -6,17 +6,16 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * 功能描述:
+ * 功能描述: ReentrantLock
  *
  * @author zhangam
  * @time 2019/4/22 13:49
  * @see
  **/
-public class LockTest {
+public class ReentrantLockTest {
 
     private static int i = 0;
 
-    //可重入锁
     private Lock lock = new ReentrantLock();
 
     public void service() throws Exception {
@@ -28,8 +27,8 @@ public class LockTest {
     }
 
     public static void main(String[] args) {
-        final LockTest lt = new LockTest();
-        ExecutorService es = Executors.newFixedThreadPool(5);
+        final ReentrantLockTest lt = new ReentrantLockTest();
+        ExecutorService es = Executors.newFixedThreadPool(1);
         for (int i = 1; i <= 10; i++) {
             es.execute(new Runnable() {
                 @Override
