@@ -1,7 +1,9 @@
 package com.example.web_demo.dao;
 
-import com.example.web_demo.entity.DbcMd5RecordEntity;
+import com.example.web_demo.entity.SysRegionEntity;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,18 +16,39 @@ import java.util.Set;
 public interface TestMapper {
 
     /**
-     * 查询所有DBC已完成的MD5记录
+     * selectAllRecord
      *
      * @return
      */
-    public Set<String> selectFinishedDbcRecord();
+    List<SysRegionEntity> selectAllRecord();
 
     /**
-     * 根据md5值查询DbcMd5Record
+     * selectAllRecordFir
      *
-     * @param md5
      * @return
      */
-    public DbcMd5RecordEntity selectByMd5(String md5);
+    List<SysRegionEntity> selectAllRecordFir();
 
+    /**
+     * selectAllRecordByCode
+     *
+     * @param code
+     * @return
+     */
+    List<SysRegionEntity> selectAllRecordByCode(@Param("code") String code);
+
+    /**
+     * getRecordByCode
+     *
+     * @param code
+     * @return
+     */
+    SysRegionEntity getRecordByCode(@Param("code") String code);
+
+    /**
+     * updateRecord
+     *
+     * @param sysRegionEntity
+     */
+    void updateRecord(SysRegionEntity sysRegionEntity);
 }

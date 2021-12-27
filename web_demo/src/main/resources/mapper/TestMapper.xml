@@ -2,32 +2,102 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.web_demo.dao.TestMapper">
 
-    <resultMap id="BaseResultMap" type="com.example.web_demo.entity.DbcMd5RecordEntity">
-        <id column="DBCID" jdbcType="INTEGER" javaType="int" property="dbcId"/>
-        <result column="MD5CODE" jdbcType="VARCHAR" javaType="string" property="md5"/>
-        <result column="FILENAME" jdbcType="VARCHAR" property="fileName"/>
-        <result column="FULLDBCNAME" jdbcType="VARCHAR" property="fullName"/>
-        <result column="CREATETIME" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime" property="createTime"/>
-        <result column="VARIABLESCOUNT" jdbcType="INTEGER" property="variablesCount"/>
+    <resultMap id="BaseResultMap" type="com.example.web_demo.entity.SysRegionEntity">
+        <result column="id" property="id"/>
+        <result column="pid" property="pId"/>
+        <result column="region_code" property="regionCode"/>
+        <result column="region_name" property="regionName"/>
+        <result column="p_region_code" property="pRegionCode"/>
+        <result column="region_level" property="regionLevel"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="tree_code" property="treeCode"/>
+        <result column="region_path" property="regionPath"/>
+        <result column="region_order" property="sortNum"/>
     </resultMap>
 
-    <sql id="BaseColumnList">
-    DBCID, MD5CODE, FILENAME, FULLDBCNAME, CREATETIME, VARIABLESCOUNT
-    </sql>
-
-    <select id="selectFinishedDbcRecord" resultType="java.lang.String">
-        SELECT MD5CODE
-        FROM incom_dbcmd5record IDC,incom_dbcvariables IDV
-        WHERE IDV.dbcid = IDC.dbcid
-        GROUP BY MD5CODE,VARIABLESCOUNT
-        HAVING SUM(IDV.serial)= ((1+variablescount)*variablescount/2)
+    <select id="selectAllRecord" resultMap="BaseResultMap">
+        select id,
+               pid,
+               region_code,
+               region_name,
+               p_region_code,
+               region_level,
+               longitude,
+               latitude,
+               tree_code,
+               region_path,
+               region_order
+        from sys_region_copy
     </select>
 
-    <select id="selectByMd5" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT
-        <include refid="BaseColumnList"/>
-        FROM incom_dbcmd5record
-        WHERE MD5CODE = #{md5,jdbcType=VARCHAR}
+    <select id="selectAllRecordFir" resultMap="BaseResultMap">
+        select id,
+               pid,
+               region_code,
+               region_name,
+               p_region_code,
+               region_level,
+               longitude,
+               latitude,
+               tree_code,
+               region_path,
+               region_order
+        from sys_region_copy
+        where region_level = '4'
+        order by region_order
     </select>
+
+    <select id="selectAllRecordByCode" resultMap="BaseResultMap">
+        select id,
+               pid,
+               region_code,
+               region_name,
+               p_region_code,
+               region_level,
+               longitude,
+               latitude,
+               tree_code,
+               region_path,
+               region_order
+        from sys_region_copy
+        where p_region_code = #{code}
+        order by region_order
+    </select>
+
+    <select id="getRecordByCode" resultMap="BaseResultMap">
+        select id,
+               pid,
+               region_code,
+               region_name,
+               p_region_code,
+               region_level,
+               longitude,
+               latitude,
+               tree_code,
+               region_path,
+               region_order
+        from sys_region_copy
+        where region_code = #{code}
+    </select>
+
+    <update id="updateRecord" parameterType="com.example.web_demo.entity.SysRegionEntity">
+        update sys_region_copy
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="pId != null">
+                pid = #{pId},
+            </if>
+            <if test="treeCode != null">
+                tree_code = #{treeCode},
+            </if>
+            <if test="regionPath != null">
+                region_path = #{regionPath},
+            </if>
+        </set>
+        where region_code = #{regionCode}
+    </update>
 
 </mapper>

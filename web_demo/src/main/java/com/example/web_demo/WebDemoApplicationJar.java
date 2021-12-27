@@ -1,6 +1,7 @@
 package com.example.web_demo;
 
 import io.micrometer.core.instrument.MeterRegistry;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,11 +17,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import java.net.InetAddress;
 import java.util.Properties;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 @EnableScheduling//定时任务
 @EnableAsync//异步调用
 @EnableCaching//缓存
-//@MapperScan("com.example.web_demo.dao")
+@MapperScan("com.example.web_demo.dao")
 @ComponentScan("com.example")
 //如果不使用@MapperScan注解，还可以在每个 mapper 接口类上加上 @Mapper 这个注解，但是这样做比较麻烦，
 //如果所有的mapper接口类都在一个包下，还是使用@MapperScan注解更为方便
