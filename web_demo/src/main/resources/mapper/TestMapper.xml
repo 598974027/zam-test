@@ -7,7 +7,7 @@
         <result column="pid" property="pId"/>
         <result column="region_code" property="regionCode"/>
         <result column="region_name" property="regionName"/>
-        <result column="p_region_code" property="pRegionCode"/>
+        <result column="parent_code" property="pRegionCode"/>
         <result column="region_level" property="regionLevel"/>
         <result column="longitude" property="longitude"/>
         <result column="latitude" property="latitude"/>
@@ -21,7 +21,7 @@
                pid,
                region_code,
                region_name,
-               p_region_code,
+               parent_code,
                region_level,
                longitude,
                latitude,
@@ -36,7 +36,7 @@
                pid,
                region_code,
                region_name,
-               p_region_code,
+               parent_code,
                region_level,
                longitude,
                latitude,
@@ -53,7 +53,7 @@
                pid,
                region_code,
                region_name,
-               p_region_code,
+               parent_code,
                region_level,
                longitude,
                latitude,
@@ -61,7 +61,7 @@
                region_path,
                region_order
         from sys_region_copy
-        where p_region_code = #{code}
+        where parent_code = #{code}
         order by region_order
     </select>
 
@@ -70,7 +70,7 @@
                pid,
                region_code,
                region_name,
-               p_region_code,
+               parent_code,
                region_level,
                longitude,
                latitude,

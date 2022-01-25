@@ -16,17 +16,17 @@ public class MyService {
     public List<SysRegionEntity> test() {
         //设置id
         List<SysRegionEntity> list = testMapper.selectAllRecordFir();
-//        long index = 1220662;
-//        for (SysRegionEntity entity : list) {
-//            if (entity.getId() == null) {
-//                SysRegionEntity sysRegionEntity = new SysRegionEntity();
-//                sysRegionEntity.setRegionCode(entity.getRegionCode().trim());
-//                sysRegionEntity.setId(index++);
-//                testMapper.updateRecord(sysRegionEntity);
-//            }
-//            index = setChildrenId(entity, index);
-//            index++;
-//        }
+        long index = 1220662;
+        for (SysRegionEntity entity : list) {
+            if (entity.getId() == null) {
+                SysRegionEntity sysRegionEntity = new SysRegionEntity();
+                sysRegionEntity.setRegionCode(entity.getRegionCode().trim());
+                sysRegionEntity.setId(index++);
+                testMapper.updateRecord(sysRegionEntity);
+            }
+            index = setChildrenId(entity, index);
+            index++;
+        }
         //设置pid
 //        List<SysRegionEntity> list2 = testMapper.selectAllRecord();
 //        for (SysRegionEntity entity : list2) {

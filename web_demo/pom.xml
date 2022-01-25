@@ -11,7 +11,7 @@
     <groupId>com.example</groupId>
     <artifactId>web_demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>web_demo</name>
     <description>Demo project for Spring Boot</description>
 
@@ -95,11 +95,11 @@
         <!--            <artifactId>druid-spring-boot-starter</artifactId>-->
         <!--            <version>1.1.10</version>-->
         <!--        </dependency>-->
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc</artifactId>
-            <version>6</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.oracle</groupId>-->
+<!--            <artifactId>ojdbc</artifactId>-->
+<!--            <version>6</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -133,11 +133,11 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.csource</groupId>
-            <artifactId>fastdfs-client-java</artifactId>
-            <version>1.25</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.csource</groupId>-->
+        <!--            <artifactId>fastdfs-client-java</artifactId>-->
+        <!--            <version>1.25</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -256,17 +256,17 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <!-- 打jar包的插件 -->
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-jar-plugin</artifactId>-->
-            <!--                <configuration>-->
-            <!--                    <archive>-->
-            <!--                        <manifest>-->
-            <!--                            <mainClass>com.example.web_demo.WebDemoApplication</mainClass>-->
-            <!--                        </manifest>-->
-            <!--                    </archive>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.example.web_demo.WebDemoApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
             <!-- 打war包的插件 -->
             <!--            <plugin>-->
             <!--                <groupId>org.apache.maven.plugins</groupId>-->
@@ -277,26 +277,26 @@
             <!--                </configuration>-->
             <!--            </plugin>-->
             <!-- docker打包的插件 -->
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <dockerHost>http://10.27.100.237:2375</dockerHost>
-                    <imageName>${project.artifactId}:${project.version}</imageName>
-                    <baseImage>primetoninc/jdk:1.8</baseImage>
-                    <workdir>/ROOT</workdir>
-                    <cmd>["java", "-version"]</cmd>
-                    <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
-                    <resources>
-                        <resource>
-                            <targetPath>/ROOT</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>com.spotify</groupId>-->
+            <!--                <artifactId>docker-maven-plugin</artifactId>-->
+            <!--                <version>1.0.0</version>-->
+            <!--                <configuration>-->
+            <!--                    <dockerHost>http://10.27.100.237:2375</dockerHost>-->
+            <!--                    <imageName>${project.artifactId}:${project.version}</imageName>-->
+            <!--                    <baseImage>primetoninc/jdk:1.8</baseImage>-->
+            <!--                    <workdir>/ROOT</workdir>-->
+            <!--                    <cmd>["java", "-version"]</cmd>-->
+            <!--                    <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>-->
+            <!--                    <resources>-->
+            <!--                        <resource>-->
+            <!--                            <targetPath>/ROOT</targetPath>-->
+            <!--                            <directory>${project.build.directory}</directory>-->
+            <!--                            <include>${project.build.finalName}.jar</include>-->
+            <!--                        </resource>-->
+            <!--                    </resources>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
         </plugins>
 
         <resources>
